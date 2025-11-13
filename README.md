@@ -84,34 +84,6 @@ Never hallucinate—PropIntel is grounded in indexed facts.
 
 ---
 
-## 📂 Repository Structure
-PropIntel/
-├── README.md
-├── data/
-│ ├── website/
-│ ├── brochures/
-│ ├── ebuilder_exports/
-│ └── embeddings/
-├── ingestion/
-│ ├── scrape_website.py
-│ ├── ingest_pdfs.py
-│ └── ingest_structured_data.py
-├── rag/
-│ ├── chunker.py
-│ ├── embedder.py
-│ └── retriever.py
-├── agent/
-│ ├── langgraph_flow.py
-│ ├── tools.py
-│ └── llm_fallback.py
-├── app/
-│ ├── ui.py (Streamlit)
-│ └── utils.py
-└── demos/
-└── sample_queries.md
-
----
-
 ## 🧩 Tech Stack
 
 - **LangGraph** – Agent workflow orchestration  
@@ -136,12 +108,10 @@ PropIntel/
 ---
 
 ## 🚀 Getting Started
-`
-git clone https://github.com/arghads9177/PropIntel
-cd PropIntel
-pip install -r requirements.txt
-streamlit run app/ui.py
-`
+`git clone https://github.com/arghads9177/PropIntel`
+`cd PropIntel`
+`pip install -r requirements.txt`
+`streamlit run app/ui.py`
 
 ---
 
