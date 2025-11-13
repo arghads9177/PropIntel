@@ -109,8 +109,11 @@ Never hallucinate—PropIntel is grounded in indexed facts.
 
 ## 🚀 Getting Started
 `git clone https://github.com/arghads9177/PropIntel`
+
 `cd PropIntel`
+
 `pip install -r requirements.txt`
+
 `streamlit run app/ui.py`
 
 ---
