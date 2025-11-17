@@ -1,0 +1,241 @@
+{
+  "company_info": {
+    "name": "Astha Infra Realty Ltd.",
+    "welcome_message": "window._wpemojiSettings = {\"baseUrl\":\"https:\\/\\/s.w.org\\/images\\/core\\/emoji\\/13.1.0\\/72x72\\/\",\"ext\":\".png\",\"svgUrl\":\"https:\\/\\/s.w.org\\/images\\/core\\/emoji\\/13.1.0\\/svg\\/\",\"svgExt\":\".svg\",\"source\":{\"concatemoji\":\"https:\\/\\/asthainfrarealty.com\\/wp-includes\\/js\\/wp-emoji-release.min.js?ver=5.8.10\"}};\n\t\t\t!function(e,a,t){var n,r,o,i=a.createElement(\"canvas\"),p=i.getContext&&i.getContext(\"2d\");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement(\"script\");t.src=e,t.defer=t.type=\"text/javascript\",a.getElementsByTagName(\"head\")[0].appendChild(t)}for(o=Array(\"flag\",\"emoji\"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline=\"top\",p.font=\"600 32px Arial\",e){case\"flag\":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case\"emoji\":return!s([10084,65039,8205,55357,56613],[10084,65039,8203,55357,56613])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],\"flag\"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener(\"DOMContentLoaded\",n,!1),e.addEventListener(\"load\",n,!1)):(e.attachEvent(\"onload\",n),a.attachEvent(\"onreadystatechange\",function(){\"complete\"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);",
+    "tagline": "It Takes Hand To Build A House, But Only Hearts Can Build A Home"
+  },
+  "contact_details": {
+    "addresses": [
+      {
+        "address": "a,h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,.x-topbar .p-info a:hover,.x-breadcrumb-wrap a:hover,.widget ul li a:hover,.widget ol li a:hover,.widget.widget_text ul li a,.widget.widget_text ol li a,.widget_nav_menu .current-menu-item  a,.x-widgetbar .widget ul li a:hover,.x-accordion-heading .x-accordion-toggle:hover,.x-comment-author a:hover,.x-comment-time:hover,.x-recent-posts a:hover .h-recent-postscolor:ff2a13a:hover,.widget.widget_text ul li a:hover,.widget.widget_text ol li a:hover,.x-twitter-widget ul li a:hovercolor:hsl(157,87,45).rev_slider_wrapper,a.x-img-thumbnail:hover,.x-slider-container.below,.page-template-template-blank-3-php .x-slider-container.above,.page-template-template-blank-6-php .x-slider-container.aboveborder-color:ff2a13.entry-thumb:before,.x-pagination span.current,.flex-direction-nav a,.flex-control-nav a:hover,.flex-control-nav a.flex-active,.mejs-time-current,.x-dropcap,.x-skill-bar .bar,.x-pricing-column.featured h2,.h-comments-title small,.x-entry-share .x-share:hover,.x-highlight,.x-recent-posts .x-recent-posts-img:afterbackground-color:ff2a13.x-nav-tabs  .active  a,.x-nav-tabs  .active  a:hoverbox-shadow:inset 0 3px 0 0 ff2a13.x-mainwidth:69.536945.x-sidebarwidth:25.536945.x-topbar .p-info,.x-topbar .p-info a,.x-navbar .desktop .x-nav  li  a,.x-navbar .desktop .sub-menu a,.x-navbar .mobile .x-nav li  a,.x-breadcrumb-wrap a,.x-breadcrumbs .delimitercolor:000000.x-navbar .desktop .x-nav  li  a:hover,.x-navbar .desktop .x-nav  .x-active  a,.x-navbar .desktop .x-nav  .current-menu-item  a,.x-navbar .desktop .sub-menu a:hover,.x-navbar .desktop .sub-menu .x-active  a,.x-navbar .desktop .sub-menu .current-menu-item  a,.x-navbar .desktop .x-nav .x-megamenu  .sub-menu  li  a,.x-navbar .mobile .x-nav li  a:hover,.x-navbar .mobile .x-nav .x-active  a,.x-navbar .mobile .x-nav .current-menu-item  acolor:hsl(248,29,62).x-navbar .desktop .x-nav  li  a:hover,.x-navbar .desktop .x-nav  .x-active  a,.x-navbar .desktop .x-nav  .current-menu-item  abox-shadow:inset 0 4px 0 0 ff2a13.x-navbar .desktop .x-nav  li  aheight:90pxpadding-top:37px.x-navbar-fixed-top-active .x-navbar-wrapmargin-bottom:1px.x-navbar .desktop .x-nav  li ultop:75px.x-comment-author,.x-comment-time,.comment-form-author label,.comment-form-email label,.comment-form-url label,.comment-form-rating label,.comment-form-comment label,.widget_calendar wp-calendar caption,.widget.widget_rss li .rsswidgetfont-family:Roboto Slabfont-weight:400.p-landmark-sub,.p-meta,input,button,select,textareafont-family:Roboto Condensed.widget ul li a,.widget ol li a,.x-comment-timecolor:hsl(268,27,15).widget_text ol li a,.widget_text ul li acolor:ff2a13.widget_text ol li a:hover,.widget_text ul li a:hovercolor:hsl(157,87,45).comment-form-author label,.comment-form-email label,.comment-form-url label,.comment-form-rating label,.comment-form-comment label,.widget_calendar wp-calendar th,.p-landmark-sub strong,.widget_tag_cloud .tagcloud a:hover,.widget_tag_cloud .tagcloud a:active,.entry-footer a:hover,.entry-footer a:active,.x-breadcrumbs .current,.x-comment-author,.x-comment-author acolor:272727.widget_calendar wp-calendar thborder-color:272727.h-feature-headline span ibackground-color:272727@media (max-width:979px).x-navbar-fixed-top-active .x-navbar-wrapmargin-bottom:0bodyfont-size:16pxfont-style:normalfont-weight:400color:hsl(268,27,15)background-color:f3f3f3a:focus,select:focus,inputtypefile:focus,inputtyperadio:focus,inputtypesubmit:focus,inputtypecheckbox:focusoutline:thin dotted 333outline:5px auto ff2a13outline-offset:-1pxh1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6font-family:Roboto Slab,seriffont-style:normalfont-weight:400h1,.h1letter-spacing:-0.035emh2,.h2letter-spacing:-0.035emh3,.h3letter-spacing:-0.035emh4,.h4letter-spacing:-0.035emh5,.h5letter-spacing:-0.035emh6,.h6letter-spacing:-0.035em.w-hfont-weight:400 important.x-container.widthwidth:88.x-container.maxmax-width:1200px.x-main.fullfloat:nonedisplay:blockwidth:auto@media (max-width:979px).x-main.full,.x-main.left,.x-main.right,.x-sidebar.left,.x-sidebar.rightfloat:nonedisplay:blockwidth:auto important.entry-header,.entry-contentfont-size:16pxbody,input,button,select,textareafont-family:Roboto Condensed,sans-serifh1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6,h1 a,h2 a,h3 a,h4 a,h5 a,h6 a,.h1 a,.h2 a,.h3 a,.h4 a,.h5 a,.h6 a,blockquotecolor:272727.cfc-h-txcolor:272727 important.cfc-h-bdborder-color:272727 important.cfc-h-bgbackground-color:272727 important.cfc-b-txcolor:hsl(268,27,15) important.cfc-b-bdborder-color:hsl(268,27,15) important.cfc-b-bgbackground-color:hsl(268,27,15) importantbody.x-navbar-fixed-top-active .x-navbar-wrapheight:90px.x-navbar-innermin-height:90px.x-brandmargin-top:22pxfont-family:Roboto,sans-seriffont-size:42pxfont-style:normalfont-weight:700letter-spacing:-0.035emcolor:hsl(0,0,92).x-brand:hover,.x-brand:focuscolor:hsl(0,0,92).x-navbar .x-nav-wrap .x-nav  li  afont-family:Voltaire,sans-seriffont-style:normalfont-weight:400letter-spacing:0.085emtext-transform:uppercase.x-navbar .desktop .x-nav  li  afont-size:18px.x-navbar .desktop .x-nav  li  a:not(.x-btn-navbar-woocommerce)padding-left:20pxpadding-right:20px.x-navbar .desktop .x-nav  li  a  spanmargin-right:-0.085em.x-btn-navbarmargin-top:20px.x-btn-navbar,.x-btn-navbar.collapsedfont-size:24px@media (max-width:979px)body.x-navbar-fixed-top-active .x-navbar-wrapheight:auto.x-widgetbarleft:0right:0.x-btn,.button,typesubmitcolor:ffffffborder-color:ac1100background-color:ff2a13margin-bottom:0.25emtext-shadow:0 0.075em 0.075em rgba(0,0,0,0.5)box-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75)border-radius:0.25em.x-btn:hover,.button:hover,typesubmit:hovercolor:ffffffborder-color:600900background-color:ef2201margin-bottom:0.25emtext-shadow:0 0.075em 0.075em rgba(0,0,0,0.5)box-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75).x-btn.x-btn-real,.x-btn.x-btn-real:hovermargin-bottom:0.25emtext-shadow:0 0.075em 0.075em rgba(0,0,0,0.65).x-btn.x-btn-realbox-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75).x-btn.x-btn-real:hoverbox-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75).x-btn.x-btn-flat,.x-btn.x-btn-flat:hovermargin-bottom:0text-shadow:0 0.075em 0.075em rgba(0,0,0,0.65)box-shadow:none.x-btn.x-btn-transparent,.x-btn.x-btn-transparent:hovermargin-bottom:0border-width:3pxtext-shadow:nonetext-transform:uppercasebackground-color:transparentbox-shadow:nonebody background:fff  .x-topbar  background-color: 277327  .x-topbar .x-social-global a i  color: fff  .x-topbar .p-info a color:fff font-size: 16px border-bottom: none font-family: Fondamento,handwriting font-style: normal font-weight: 400 letter-spacing: 0.085em  .x-navbar  background:fefefeurl(/wp-content/uploads/2018/04/background-header.png)  .desktop .sub-menu background-color:EEEAE8  .x-navbar .desktop .sub-menu a:hover border-bottom:2px solid fff background-color:green color:fff  .footer-text float: left  @media (max-width: 767px) .x-topbar .p-info  background-color: 277327  .x-social-global  width: 100 important  .footer-text float: none important   .current-menu-item  a  span, .current-page-ancestor  a  span  padding-bottom: 10px border-bottom: 3px solid fed42a  .x-colophon.top  //background:url(/wp-content/uploads/2018/04/background-footer.png) background:277327 color: fff border-top: 3px solid 39B44A // border-bottom: 2px solid 999  .bottom background: hsl(48, 99, 58) important color: white .desktop .x-nav  li  a:hover, .x-navbar .desktop .x-nav  .x-active  a, .x-navbar .desktop .x-nav  .current-menu-item  a box-shadow: none important  .widget ul li a, .widget ol li a  border-bottom: none  .widget ul li, .widget ol li border-bottom: none important  .widget ul, .widget ol border: none important  .bottom background: 1F313B border-bottom: 4px solid 39B44A padding: 12px 0 important  .x-colophon.bottom .x-colophon-content a color:fff font-size:10px  .x-colophon.bottom .x-colophon-content color: f2f2f2 margin-top: 10px important  .x-social-global float: right width: 10  .widget  text-shadow: none important line-height: 25px important  .widget h4  border-bottom: 2px solid ececec margin-bottom: 30px text-transform: uppercase color: fff padding-bottom: 0px font-size: 18px  h4.h-widget::after  position: relative width: 25bottom: -2px height: 10px border-bottom: 2px solid 39B44A content:  display: block  .x-social-global a i  color: fff  divpum_popup_title_630  text-align: center  .enquiry margin-top:-175px important  .x-social-global a i  color: 000  .flip-box-back border: 1px solid FFEB3B border-radius: 10px  .flip-box-front h6  color: fff  .flip-box-front  background-color: 607D8B important  .x-alert, .wpcf7-response-output, .buddypress message, .bbp-template-notice border: none important background-color: fff important",
+        "phones": [],
+        "emails": [],
+        "pin_codes": [
+          "536945",
+          "536945",
+          "000000",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "600900",
+          "277327",
+          "277327",
+          "277327"
+        ]
+      },
+      {
+        "address": "Prakash Apartment1stFloor,G.T. Road, GopalpurAsansol - 713304.contact no - 9434745115Madhumita Apartmentplot no-29Kalyanpur Housing, Asansol-713305Contact no- .Dev ApartmentKulti College Road, Kulti- 713360Contact no-",
+        "phones": [
+          "9233386645",
+          "9434745117"
+        ],
+        "emails": [],
+        "pin_codes": [
+          "713304"
+        ]
+      },
+      {
+        "address": "426, Sarat Sarani Road,Olaichanditala,Bandel Hooghly - 712103Phone No. - (L) asthainfrarealty@gmail.com",
+        "phones": [
+          "033-26310154"
+        ],
+        "emails": [
+          "033-26310154asthainfrarealty@gmail.com"
+        ],
+        "pin_codes": []
+      },
+      {
+        "address": "09903042524 / 92333 86645 / /9088015435Astha Infra Realty Ltd.NavigationHomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearchHomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearchWel Come ToAstha InfrarealtyIt Takes Hand To Build A House, But Only Hearts Can Build A Home, And We The Home -makers.-Team AsthaInfrarealtyEnquiryYour Name (required)Your Email (required)Your EnquiryWelcome ToAstha InfrarealtyAastha Infra Realty (Aastha Group), is one of the leading and premium real estate developers in India, having to its credit, over the past three decades, number of prestigious Residential & Commercial Complexes, Office Buildings and Township in Asansol, Bandel (Hoogly) and has now also extended its activities to Shopping Malls, Townships, Clubs, Hospitality sector etc.Finding a HomeWe can help you make the dream of a new house a reality.Explore PropertyReal estate appraisalFor over 20 years we has consistently delivered an unrivalled portfolio of properties to people.Friendly Customer SupportEach member of our team is very experienced in the market and has exceptional local knowledge .Real estate appraisalFor over 20 years we has consistently delivered an unrivalled portfolio of properties to people.Premium QualityWe are a safe agent and a member of the my deposits protected deposit scheme too.Friendly Customer SupportEach member of our team is very experienced in the market and has exceptional local knowledge .Get in touch with us and we will inform you about promotion.Our AddressPrakash Apartment1stFloor,G.T. Road, GopalpurAsansol - 713304.contact no - Madhumita Apartmentplot no-29Kalyanpur Housing, Asansol-713305Contact no- .Dev ApartmentKulti College Road, Kulti- 713360Contact no- 9434745117Contact UsTel: 0341-7963322Email: @asthainfrarealty.comBandel Branch426, Sarat Sarani Road,Olaichanditala,Bandel Hooghly - 712103Phone No. - (L) asthainfrarealty@gmail.comCreated ByAstha IT SolutionsType and Press enter to Search",
+        "phones": [
+          "9434745115",
+          "9233386645",
+          "033-26310154"
+        ],
+        "emails": [
+          "033-26310154asthainfrarealty@gmail.comcreated",
+          "asthainfrarealty@gmail.commoumitadas",
+          "asthainfrarealty@gmail.com|"
+        ],
+        "pin_codes": [
+          "713304"
+        ]
+      },
+      {
+        "address": "Astha Infra Realty Ltd.NavigationHomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearchHomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearch",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "address": "HomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearch",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "address": "Wel Come ToAstha InfrarealtyIt Takes Hand To Build A House, But Only Hearts Can Build A Home, And We The Home -makers.-Team AsthaInfrarealtyEnquiryYour Name (required)Your Email (required)Your EnquiryWelcome ToAstha InfrarealtyAastha Infra Realty (Aastha Group), is one of the leading and premium real estate developers in India, having to its credit, over the past three decades, number of prestigious Residential & Commercial Complexes, Office Buildings and Township in Asansol, Bandel (Hoogly) and has now also extended its activities to Shopping Malls, Townships, Clubs, Hospitality sector etc.Finding a HomeWe can help you make the dream of a new house a reality.Explore PropertyReal estate appraisalFor over 20 years we has consistently delivered an unrivalled portfolio of properties to people.Friendly Customer SupportEach member of our team is very experienced in the market and has exceptional local knowledge .Real estate appraisalFor over 20 years we has consistently delivered an unrivalled portfolio of properties to people.Premium QualityWe are a safe agent and a member of the my deposits protected deposit scheme too.Friendly Customer SupportEach member of our team is very experienced in the market and has exceptional local knowledge .",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "address": "Welcome ToAstha InfrarealtyAastha Infra Realty (Aastha Group), is one of the leading and premium real estate developers in India, having to its credit, over the past three decades, number of prestigious Residential & Commercial Complexes, Office Buildings and Township in Asansol, Bandel (Hoogly) and has now also extended its activities to Shopping Malls, Townships, Clubs, Hospitality sector etc.Finding a HomeWe can help you make the dream of a new house a reality.Explore Property",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "address": "Welcome ToAstha InfrarealtyAastha Infra Realty (Aastha Group), is one of the leading and premium real estate developers in India, having to its credit, over the past three decades, number of prestigious Residential & Commercial Complexes, Office Buildings and Township in Asansol, Bandel (Hoogly) and has now also extended its activities to Shopping Malls, Townships, Clubs, Hospitality sector etc.",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "address": "Aastha Infra Realty (Aastha Group), is one of the leading and premium real estate developers in India, having to its credit, over the past three decades, number of prestigious Residential & Commercial Complexes, Office Buildings and Township in Asansol, Bandel (Hoogly) and has now also extended its activities to Shopping Malls, Townships, Clubs, Hospitality sector etc.",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "address": "Get in touch with us and we will inform you about promotion.Our AddressPrakash Apartment1stFloor,G.T. Road, GopalpurAsansol - 713304.contact no - 9434745115Madhumita Apartmentplot no-29Kalyanpur Housing, Asansol-713305Contact no- .Dev ApartmentKulti College Road, Kulti- 713360Contact no- 9434745117Contact UsTel: 0341-7963322Email: @asthainfrarealty.comBandel Branch426, Sarat Sarani Road,Olaichanditala,Bandel Hooghly - 712103Phone No. - (L) asthainfrarealty@gmail.com",
+        "phones": [
+          "9233386645",
+          "033-26310154"
+        ],
+        "emails": [
+          "033-26310154asthainfrarealty@gmail.com",
+          "asthainfrarealty@gmail.commoumitadas"
+        ],
+        "pin_codes": [
+          "713304"
+        ]
+      },
+      {
+        "address": "Our AddressPrakash Apartment1stFloor,G.T. Road, GopalpurAsansol - 713304.contact no - 9434745115Madhumita Apartmentplot no-29Kalyanpur Housing, Asansol-713305Contact no- .Dev ApartmentKulti College Road, Kulti- 713360Contact no-",
+        "phones": [
+          "9233386645",
+          "9434745117"
+        ],
+        "emails": [],
+        "pin_codes": [
+          "713304"
+        ]
+      },
+      {
+        "address": "Bandel Branch426, Sarat Sarani Road,Olaichanditala,Bandel Hooghly - 712103Phone No. - (L) asthainfrarealty@gmail.com",
+        "phones": [
+          "033-26310154"
+        ],
+        "emails": [
+          "033-26310154asthainfrarealty@gmail.com"
+        ],
+        "pin_codes": []
+      }
+    ],
+    "phones": [
+      "0341-7963322",
+      "9434745115",
+      "9088015435",
+      "9233386645",
+      "9434745117",
+      "033-26310154"
+    ],
+    "emails": [
+      "asthainfrarealty@gmail.com",
+      "moumitadas@asthainfrarealty.com"
+    ],
+    "office_timing": {
+      "days": "Monday to Saturday",
+      "hours": "10:00 AM – 5:00 PM"
+    },
+    "head_office": {
+      "address": "Our AddressPrakash Apartment1stFloor,G.T. Road, GopalpurAsansol - 713304.contact no - 9434745115Madhumita Apartmentplot no-29Kalyanpur Housing, Asansol-713305Contact no- .Dev ApartmentKulti College Road, Kulti- 713360Contact no-",
+      "phones": [
+        "9233386645",
+        "9434745117"
+      ],
+      "emails": [],
+      "pin_codes": [
+        "713304"
+      ]
+    },
+    "branches": [
+      {
+        "name": "Other Office",
+        "address": "a,h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,.x-topbar .p-info a:hover,.x-breadcrumb-wrap a:hover,.widget ul li a:hover,.widget ol li a:hover,.widget.widget_text ul li a,.widget.widget_text ol li a,.widget_nav_menu .current-menu-item  a,.x-widgetbar .widget ul li a:hover,.x-accordion-heading .x-accordion-toggle:hover,.x-comment-author a:hover,.x-comment-time:hover,.x-recent-posts a:hover .h-recent-postscolor:ff2a13a:hover,.widget.widget_text ul li a:hover,.widget.widget_text ol li a:hover,.x-twitter-widget ul li a:hovercolor:hsl(157,87,45).rev_slider_wrapper,a.x-img-thumbnail:hover,.x-slider-container.below,.page-template-template-blank-3-php .x-slider-container.above,.page-template-template-blank-6-php .x-slider-container.aboveborder-color:ff2a13.entry-thumb:before,.x-pagination span.current,.flex-direction-nav a,.flex-control-nav a:hover,.flex-control-nav a.flex-active,.mejs-time-current,.x-dropcap,.x-skill-bar .bar,.x-pricing-column.featured h2,.h-comments-title small,.x-entry-share .x-share:hover,.x-highlight,.x-recent-posts .x-recent-posts-img:afterbackground-color:ff2a13.x-nav-tabs  .active  a,.x-nav-tabs  .active  a:hoverbox-shadow:inset 0 3px 0 0 ff2a13.x-mainwidth:69.536945.x-sidebarwidth:25.536945.x-topbar .p-info,.x-topbar .p-info a,.x-navbar .desktop .x-nav  li  a,.x-navbar .desktop .sub-menu a,.x-navbar .mobile .x-nav li  a,.x-breadcrumb-wrap a,.x-breadcrumbs .delimitercolor:000000.x-navbar .desktop .x-nav  li  a:hover,.x-navbar .desktop .x-nav  .x-active  a,.x-navbar .desktop .x-nav  .current-menu-item  a,.x-navbar .desktop .sub-menu a:hover,.x-navbar .desktop .sub-menu .x-active  a,.x-navbar .desktop .sub-menu .current-menu-item  a,.x-navbar .desktop .x-nav .x-megamenu  .sub-menu  li  a,.x-navbar .mobile .x-nav li  a:hover,.x-navbar .mobile .x-nav .x-active  a,.x-navbar .mobile .x-nav .current-menu-item  acolor:hsl(248,29,62).x-navbar .desktop .x-nav  li  a:hover,.x-navbar .desktop .x-nav  .x-active  a,.x-navbar .desktop .x-nav  .current-menu-item  abox-shadow:inset 0 4px 0 0 ff2a13.x-navbar .desktop .x-nav  li  aheight:90pxpadding-top:37px.x-navbar-fixed-top-active .x-navbar-wrapmargin-bottom:1px.x-navbar .desktop .x-nav  li ultop:75px.x-comment-author,.x-comment-time,.comment-form-author label,.comment-form-email label,.comment-form-url label,.comment-form-rating label,.comment-form-comment label,.widget_calendar wp-calendar caption,.widget.widget_rss li .rsswidgetfont-family:Roboto Slabfont-weight:400.p-landmark-sub,.p-meta,input,button,select,textareafont-family:Roboto Condensed.widget ul li a,.widget ol li a,.x-comment-timecolor:hsl(268,27,15).widget_text ol li a,.widget_text ul li acolor:ff2a13.widget_text ol li a:hover,.widget_text ul li a:hovercolor:hsl(157,87,45).comment-form-author label,.comment-form-email label,.comment-form-url label,.comment-form-rating label,.comment-form-comment label,.widget_calendar wp-calendar th,.p-landmark-sub strong,.widget_tag_cloud .tagcloud a:hover,.widget_tag_cloud .tagcloud a:active,.entry-footer a:hover,.entry-footer a:active,.x-breadcrumbs .current,.x-comment-author,.x-comment-author acolor:272727.widget_calendar wp-calendar thborder-color:272727.h-feature-headline span ibackground-color:272727@media (max-width:979px).x-navbar-fixed-top-active .x-navbar-wrapmargin-bottom:0bodyfont-size:16pxfont-style:normalfont-weight:400color:hsl(268,27,15)background-color:f3f3f3a:focus,select:focus,inputtypefile:focus,inputtyperadio:focus,inputtypesubmit:focus,inputtypecheckbox:focusoutline:thin dotted 333outline:5px auto ff2a13outline-offset:-1pxh1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6font-family:Roboto Slab,seriffont-style:normalfont-weight:400h1,.h1letter-spacing:-0.035emh2,.h2letter-spacing:-0.035emh3,.h3letter-spacing:-0.035emh4,.h4letter-spacing:-0.035emh5,.h5letter-spacing:-0.035emh6,.h6letter-spacing:-0.035em.w-hfont-weight:400 important.x-container.widthwidth:88.x-container.maxmax-width:1200px.x-main.fullfloat:nonedisplay:blockwidth:auto@media (max-width:979px).x-main.full,.x-main.left,.x-main.right,.x-sidebar.left,.x-sidebar.rightfloat:nonedisplay:blockwidth:auto important.entry-header,.entry-contentfont-size:16pxbody,input,button,select,textareafont-family:Roboto Condensed,sans-serifh1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6,h1 a,h2 a,h3 a,h4 a,h5 a,h6 a,.h1 a,.h2 a,.h3 a,.h4 a,.h5 a,.h6 a,blockquotecolor:272727.cfc-h-txcolor:272727 important.cfc-h-bdborder-color:272727 important.cfc-h-bgbackground-color:272727 important.cfc-b-txcolor:hsl(268,27,15) important.cfc-b-bdborder-color:hsl(268,27,15) important.cfc-b-bgbackground-color:hsl(268,27,15) importantbody.x-navbar-fixed-top-active .x-navbar-wrapheight:90px.x-navbar-innermin-height:90px.x-brandmargin-top:22pxfont-family:Roboto,sans-seriffont-size:42pxfont-style:normalfont-weight:700letter-spacing:-0.035emcolor:hsl(0,0,92).x-brand:hover,.x-brand:focuscolor:hsl(0,0,92).x-navbar .x-nav-wrap .x-nav  li  afont-family:Voltaire,sans-seriffont-style:normalfont-weight:400letter-spacing:0.085emtext-transform:uppercase.x-navbar .desktop .x-nav  li  afont-size:18px.x-navbar .desktop .x-nav  li  a:not(.x-btn-navbar-woocommerce)padding-left:20pxpadding-right:20px.x-navbar .desktop .x-nav  li  a  spanmargin-right:-0.085em.x-btn-navbarmargin-top:20px.x-btn-navbar,.x-btn-navbar.collapsedfont-size:24px@media (max-width:979px)body.x-navbar-fixed-top-active .x-navbar-wrapheight:auto.x-widgetbarleft:0right:0.x-btn,.button,typesubmitcolor:ffffffborder-color:ac1100background-color:ff2a13margin-bottom:0.25emtext-shadow:0 0.075em 0.075em rgba(0,0,0,0.5)box-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75)border-radius:0.25em.x-btn:hover,.button:hover,typesubmit:hovercolor:ffffffborder-color:600900background-color:ef2201margin-bottom:0.25emtext-shadow:0 0.075em 0.075em rgba(0,0,0,0.5)box-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75).x-btn.x-btn-real,.x-btn.x-btn-real:hovermargin-bottom:0.25emtext-shadow:0 0.075em 0.075em rgba(0,0,0,0.65).x-btn.x-btn-realbox-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75).x-btn.x-btn-real:hoverbox-shadow:0 0.25em 0 0 a71000,0 4px 9px rgba(0,0,0,0.75).x-btn.x-btn-flat,.x-btn.x-btn-flat:hovermargin-bottom:0text-shadow:0 0.075em 0.075em rgba(0,0,0,0.65)box-shadow:none.x-btn.x-btn-transparent,.x-btn.x-btn-transparent:hovermargin-bottom:0border-width:3pxtext-shadow:nonetext-transform:uppercasebackground-color:transparentbox-shadow:nonebody background:fff  .x-topbar  background-color: 277327  .x-topbar .x-social-global a i  color: fff  .x-topbar .p-info a color:fff font-size: 16px border-bottom: none font-family: Fondamento,handwriting font-style: normal font-weight: 400 letter-spacing: 0.085em  .x-navbar  background:fefefeurl(/wp-content/uploads/2018/04/background-header.png)  .desktop .sub-menu background-color:EEEAE8  .x-navbar .desktop .sub-menu a:hover border-bottom:2px solid fff background-color:green color:fff  .footer-text float: left  @media (max-width: 767px) .x-topbar .p-info  background-color: 277327  .x-social-global  width: 100 important  .footer-text float: none important   .current-menu-item  a  span, .current-page-ancestor  a  span  padding-bottom: 10px border-bottom: 3px solid fed42a  .x-colophon.top  //background:url(/wp-content/uploads/2018/04/background-footer.png) background:277327 color: fff border-top: 3px solid 39B44A // border-bottom: 2px solid 999  .bottom background: hsl(48, 99, 58) important color: white .desktop .x-nav  li  a:hover, .x-navbar .desktop .x-nav  .x-active  a, .x-navbar .desktop .x-nav  .current-menu-item  a box-shadow: none important  .widget ul li a, .widget ol li a  border-bottom: none  .widget ul li, .widget ol li border-bottom: none important  .widget ul, .widget ol border: none important  .bottom background: 1F313B border-bottom: 4px solid 39B44A padding: 12px 0 important  .x-colophon.bottom .x-colophon-content a color:fff font-size:10px  .x-colophon.bottom .x-colophon-content color: f2f2f2 margin-top: 10px important  .x-social-global float: right width: 10  .widget  text-shadow: none important line-height: 25px important  .widget h4  border-bottom: 2px solid ececec margin-bottom: 30px text-transform: uppercase color: fff padding-bottom: 0px font-size: 18px  h4.h-widget::after  position: relative width: 25bottom: -2px height: 10px border-bottom: 2px solid 39B44A content:  display: block  .x-social-global a i  color: fff  divpum_popup_title_630  text-align: center  .enquiry margin-top:-175px important  .x-social-global a i  color: 000  .flip-box-back border: 1px solid FFEB3B border-radius: 10px  .flip-box-front h6  color: fff  .flip-box-front  background-color: 607D8B important  .x-alert, .wpcf7-response-output, .buddypress message, .bbp-template-notice border: none important background-color: fff important",
+        "phones": [],
+        "emails": [],
+        "pin_codes": [
+          "536945",
+          "536945",
+          "000000",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "272727",
+          "600900",
+          "277327",
+          "277327",
+          "277327"
+        ]
+      },
+      {
+        "name": "Bandel Branch",
+        "address": "426, Sarat Sarani Road,Olaichanditala,Bandel Hooghly - 712103Phone No. - (L) asthainfrarealty@gmail.com",
+        "phones": [
+          "033-26310154"
+        ],
+        "emails": [
+          "033-26310154asthainfrarealty@gmail.com"
+        ],
+        "pin_codes": []
+      },
+      {
+        "name": "Other Office",
+        "address": "Astha Infra Realty Ltd.NavigationHomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearchHomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearch",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "name": "Other Office",
+        "address": "HomeUpcoming ProjectsAlakananda phase 2Deb ApartmentRunning ProjectsNilachal ApartmentAastha apartmentShivalayaAshirwad ApartmentAlakananda ApartmentRajdeep ApartmentKabi TirthaBlock OneBlock TwoBlock ThreeBlock FourCompleted ProjectsGeetanjali EnclaveElina TowerOlivia EnclaveSatsang GOmkar ApartmentContact UsSearch",
+        "phones": [],
+        "emails": [],
+        "pin_codes": []
+      },
+      {
+        "name": "Bandel Branch",
+        "address": "Bandel Branch426, Sarat Sarani Road,Olaichanditala,Bandel Hooghly - 712103Phone No. - (L) asthainfrarealty@gmail.com",
+        "phones": [
+          "033-26310154"
+        ],
+        "emails": [
+          "033-26310154asthainfrarealty@gmail.com"
+        ],
+        "pin_codes": []
+      }
+    ]
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/share/Vw8HASQWMqszDDC6/?mibextid=LQQJ4d",
+    "youtube": "https://www.youtube.com/@Asthainfrarealty",
+    "instagram": "https://www.instagram.com/asthainfrarealty?igsh=NnV1Znl5cm5tcWxw"
+  },
+  "metadata": {
+    "pages_scraped": [
+      "home",
+      "contact-us"
+    ],
+    "scraping_date": "2025-11-17T22:38:14.560053",
+    "base_url": "https://asthainfrarealty.com/",
+    "data_completeness": 100.0
+  }
+}
