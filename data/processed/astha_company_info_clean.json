@@ -1,0 +1,69 @@
+{
+  "company_info": {
+    "name": "Astha Infra Realty Ltd.",
+    "welcome_message": "Aastha infra realty (aastha group), is one of the leading and premium real estate developers in india, having to its credit, over the past three decades, number of prestigious residential & commercial complexes, office buildings and township in asansol, bandel (hoogly) and has now also extended its activities to shopping malls, townships, clubs, hospitality sector etc.",
+    "tagline": "It Takes Hand To Build A House, But Only Hearts Can Build A Home",
+    "experience_years": 30,
+    "specializations": [
+      "Residential Complexes",
+      "Commercial Buildings",
+      "Townships",
+      "Apartment Buildings",
+      "Shopping Malls",
+      "Office Buildings",
+      "Hospitality & Clubs"
+    ],
+    "service_areas": [
+      "Asansol",
+      "Bandel",
+      "Hooghly"
+    ]
+  },
+  "contact_details": {
+    "office_timing": {
+      "days": "Monday to Saturday",
+      "hours": "10:00 AM - 5:00 PM",
+      "hours_24": "10:00-17:00"
+    },
+    "head_office": {
+      "name": "Head Office",
+      "address": {
+        "building": "Prakash Apartment, 1st Floor",
+        "street": "G.T. Road, Gopalpur",
+        "city": "Asansol",
+        "state": "West Bengal",
+        "pin_code": "713304",
+        "full_address": "Prakash Apartment, 1st Floor, G.T. Road, Gopalpur, Asansol - 713304"
+      },
+      "phones": [
+        "+91-341-7963322",
+        "+91-9434745115"
+      ],
+      "emails": [
+        "asthainfrarealty@gmail.com",
+        "moumitadas@asthainfrarealty.com"
+      ]
+    },
+    "branches": [
+      {
+        "name": "Bandel Branch",
+        "address": {
+          "building": "426, Sarat Sarani Road",
+          "area": "Olaichanditala",
+          "city": "Bandel",
+          "district": "Hooghly",
+          "state": "West Bengal",
+          "pin_code": "712103"
+        },
+        "phones": [
+          "+91-33-26310154"
+        ]
+      }
+    ]
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/share/Vw8HASQWMqszDDC6/",
+    "youtube": "https://www.youtube.com/@Asthainfrarealty",
+    "instagram": "https://www.instagram.com/asthainfrarealty"
+  }
+}

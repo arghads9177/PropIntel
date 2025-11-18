@@ -65,7 +65,10 @@ class EnvironmentConfig:
             'raw_data_path': os.getenv('RAW_DATA_PATH', './data/raw'),
             'processed_data_path': os.getenv('PROCESSED_DATA_PATH', './data/processed'),
             
-            # API Keys (for future use)
+            # API Keys (for LLM integration)
+            'OPENAI_API_KEY': os.getenv('OPENAI_API_KEY'),
+            'GOOGLE_API_KEY': os.getenv('GOOGLE_API_KEY'),
+            'GROQ_API_KEY': os.getenv('GROQ_API_KEY'),
             'openai_api_key': os.getenv('OPENAI_API_KEY'),
             'ebuilder_api_url': os.getenv('EBUILDER_API_URL'),
             'ebuilder_auth_token': os.getenv('EBUILDER_AUTH_TOKEN'),
