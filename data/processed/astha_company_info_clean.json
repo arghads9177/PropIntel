@@ -58,6 +58,34 @@
         "phones": [
           "+91-33-26310154"
         ]
+      },
+      {
+        "name": "Kulti Branch",
+        "address": {
+          "building": "Dev Apartment, Kulti College Road",
+          "area": "Kulti",
+          "city": "Kulti",
+          "district": "Paschim Bardhaman",
+          "state": "West Bengal",
+          "pin_code": "713360"
+        },
+        "phones": [
+          "+919434745117"
+        ]
+      },
+      {
+        "name": "Kalyanpur Branch",
+        "address": {
+          "building": "Madhumita Apartment Plot No-29",
+          "area": "Kalyanpur Housing",
+          "city": "Asansol",
+          "district": "Paschim Bardhaman",
+          "state": "West Bengal",
+          "pin_code": "713305"
+        },
+        "phones": [
+          "+919233386645"
+        ]
       }
     ]
   },
@@ -65,5 +93,6 @@
     "facebook": "https://www.facebook.com/share/Vw8HASQWMqszDDC6/",
     "youtube": "https://www.youtube.com/@Asthainfrarealty",
     "instagram": "https://www.instagram.com/asthainfrarealty"
-  }
+  },
+  "website": "https://www.asthainfrarealty.com"
 }

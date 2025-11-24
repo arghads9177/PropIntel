@@ -39,7 +39,9 @@ def test_basic_retrieval():
         "How can I contact Astha?",
         "What are the office timings?",
         "Where does Astha operate?",
-        "Tell me about Astha company"
+        "Tell me about Astha company",
+        "What is the address of Bandel branch?",
+        "What is the address of head office?"
     ]
     
     for query in test_queries:

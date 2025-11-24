@@ -39,12 +39,12 @@ class QueryProcessor:
     
     # Common real estate query patterns
     QUERY_PATTERNS = {
+        'contact': r'(contact|phone|email|reach|call|connect|address|office|branch|location of)',
+        'timing': r'(timing|hours|when|schedule|open|close)',
+        'social': r'(social|facebook|twitter|linkedin|instagram|youtube)',
         'specialization': r'(what|which).*(specializ|specialis|service|offer|do|build)',
         'location': r'(where|which area|which location|service area)',
-        'contact': r'(contact|phone|email|reach|call|connect)',
         'about': r'(about|tell me|information|who|what is)',
-        'timing': r'(timing|hours|when|schedule|open)',
-        'social': r'(social|facebook|twitter|linkedin|instagram|youtube)',
         'price': r'(price|cost|rate|how much|pricing)',
         'project': r'(project|development|property|scheme)',
     }
@@ -228,12 +228,17 @@ class QueryProcessor:
         filters = {}
         
         # Section-based filters
-        if query_type == 'contact':
+        # Contact-related queries (phone, email, address, office, timing)
+        if query_type in ['contact', 'timing']:
             filters['section'] = 'contact_details'
+        # Social media queries
         elif query_type == 'social':
             filters['section'] = 'social_media'
-        elif query_type in ['specialization', 'location', 'about']:
+        # Company info queries (only for specific types, not general queries)
+        elif query_type == 'specialization':
             filters['section'] = 'company_info'
+        # For 'about', 'location', and 'general' queries, don't apply section filter
+        # to allow searching across all sections
         
         return filters
     
