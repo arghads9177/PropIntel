@@ -79,9 +79,11 @@ class DocumentChunker:
             chunks.extend(contact_chunks)
             self.logger.info(f"Created {len(contact_chunks)} chunks from contact_details")
         
-        # Chunk social media
-        if 'social_media' in data:
-            social_chunks = self._chunk_social_media(data['social_media'], company_id)
+        # Chunk social media (include website if present)
+        if 'social_media' in data or 'website' in data:
+            social_data = data.get('social_media', {})
+            website = data.get('website')
+            social_chunks = self._chunk_social_media(social_data, company_id, website)
             chunks.extend(social_chunks)
             self.logger.info(f"Created {len(social_chunks)} chunks from social_media")
         
@@ -199,20 +201,24 @@ class DocumentChunker:
         
         return chunks
     
-    def _chunk_social_media(self, social_media: Dict[str, Any], company_id: str) -> List[DocumentChunk]:
+    def _chunk_social_media(self, social_media: Dict[str, Any], company_id: str, website: Optional[str] = None) -> List[DocumentChunk]:
         """Chunk social media section"""
         
-        if not social_media:
+        if not social_media and not website:
             return []
         
-        social_content = self._build_social_media(social_media)
+        social_content = self._build_social_media(social_media, website)
+        
+        platforms = list(social_media.keys()) if social_media else []
+        if website:
+            platforms.append('website')
         
         return [DocumentChunk(
             content=social_content,
             metadata={
                 'company_id': company_id,
                 'section': 'social_media',
-                'platforms': ', '.join(social_media.keys())
+                'platforms': ', '.join(platforms)
             },
             chunk_id=f"{company_id}_social_media",
             chunk_type='social_media'
@@ -328,15 +334,22 @@ class DocumentChunker:
         
         return "\n".join(parts)
     
-    def _build_social_media(self, social_media: Dict[str, str]) -> str:
+    def _build_social_media(self, social_media: Dict[str, str], website: Optional[str] = None) -> str:
         """Build social media content"""
         
-        content = "Social Media Presence:\n"
+        parts = []
         
-        for platform, url in social_media.items():
-            content += f"- {platform.capitalize()}: {url}\n"
+        # Add website first if present
+        if website:
+            parts.append(f"Website: {website}")
         
-        return content.strip()
+        # Add social media platforms
+        if social_media:
+            parts.append("\nSocial Media Presence:")
+            for platform, url in social_media.items():
+                parts.append(f"- {platform.capitalize()}: {url}")
+        
+        return "\n".join(parts).strip()
     
     def get_chunk_stats(self, chunks: Optional[List[DocumentChunk]] = None) -> Dict[str, Any]:
         """
