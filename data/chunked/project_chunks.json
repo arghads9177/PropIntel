@@ -1,0 +1,442 @@
+[
+  {
+    "text": "Project Name: Aastha Apartment\nStatus: Running\nDeveloper: Astha Finance And Investment Limited\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Aastha Apartment",
+      "category": "running",
+      "chunk_type": "overview",
+      "developer": "Astha Finance And Investment Limited",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Aastha Apartment\nTower: Tower 1\nNumber of Floors: G+4",
+    "metadata": {
+      "project_name": "Aastha Apartment",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+4"
+    }
+  },
+  {
+    "text": "Project: Aastha Apartment\nLocation: Aastha apartment, Neamatpur New Road,West Bengal\nDeveloped By: Astha Finance And Investment Limited",
+    "metadata": {
+      "project_name": "Aastha Apartment",
+      "category": "running",
+      "chunk_type": "location",
+      "location": "Aastha apartment, Neamatpur New Road,West Bengal",
+      "developer": "Astha Finance And Investment Limited"
+    }
+  },
+  {
+    "text": "Project Name: Ashirwad Apartment\nStatus: Running\nDeveloper: Astha Finance & Investment Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Ashirwad Apartment",
+      "category": "running",
+      "chunk_type": "overview",
+      "developer": "Astha Finance & Investment Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Ashirwad Apartment\nTower: Tower 1\nNumber of Floors: G+3",
+    "metadata": {
+      "project_name": "Ashirwad Apartment",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+3"
+    }
+  },
+  {
+    "text": "Project: Ashirwad Apartment\nLocation: Ashirwad Apartment, Rohinardihi, Kalyanpur Housing Asansol,West Bengal\nDeveloped By: Astha Finance & Investment Ltd.",
+    "metadata": {
+      "project_name": "Ashirwad Apartment",
+      "category": "running",
+      "chunk_type": "location",
+      "location": "Ashirwad Apartment, Rohinardihi, Kalyanpur Housing Asansol,West Bengal",
+      "developer": "Astha Finance & Investment Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Alaknanda Apartment\nStatus: Running\nDeveloper: Satyam Construction Pvt. Ltd.\nNumber of Towers: 2",
+    "metadata": {
+      "project_name": "Alaknanda Apartment",
+      "category": "running",
+      "chunk_type": "overview",
+      "developer": "Satyam Construction Pvt. Ltd.",
+      "tower_count": 2
+    }
+  },
+  {
+    "text": "Project: Alaknanda Apartment\nTower: Tower 1\nNumber of Floors: G+4",
+    "metadata": {
+      "project_name": "Alaknanda Apartment",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+4"
+    }
+  },
+  {
+    "text": "Project: Alaknanda Apartment\nTower: Tower 2\nNumber of Floors: B+G+4",
+    "metadata": {
+      "project_name": "Alaknanda Apartment",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_2",
+      "number_of_floors": "B+G+4"
+    }
+  },
+  {
+    "text": "Project: Alaknanda Apartment\nLocation: Alaknanda Apartment, 568/494, Lathbagan,Hooghly, Bandel\nDeveloped By: Satyam Construction Pvt. Ltd.",
+    "metadata": {
+      "project_name": "Alaknanda Apartment",
+      "category": "running",
+      "chunk_type": "location",
+      "location": "Alaknanda Apartment, 568/494, Lathbagan,Hooghly, Bandel",
+      "developer": "Satyam Construction Pvt. Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Shivalaya\nStatus: Running\nDeveloper: Satyam Construction Pvt. Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Shivalaya",
+      "category": "running",
+      "chunk_type": "overview",
+      "developer": "Satyam Construction Pvt. Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Shivalaya\nTower: Tower 1\nNumber of Floors: G+4",
+    "metadata": {
+      "project_name": "Shivalaya",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+4"
+    }
+  },
+  {
+    "text": "Project: Shivalaya\nLocation: Holding No: 452/369, 309 Olaichanditala Kazidanga, PS: Chinsurah, Hooghly, West Bengal, Pin: 712 103\nDeveloped By: Satyam Construction Pvt. Ltd.",
+    "metadata": {
+      "project_name": "Shivalaya",
+      "category": "running",
+      "chunk_type": "location",
+      "location": "Holding No: 452/369, 309 Olaichanditala Kazidanga, PS: Chinsurah, Hooghly, West Bengal, Pin: 712 103",
+      "developer": "Satyam Construction Pvt. Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Kabi Tirtha\nStatus: Running\nDeveloper: Satyam Construction (Pvt) Ltd.\nNumber of Towers: 4",
+    "metadata": {
+      "project_name": "Kabi Tirtha",
+      "category": "running",
+      "chunk_type": "overview",
+      "developer": "Satyam Construction (Pvt) Ltd.",
+      "tower_count": 4
+    }
+  },
+  {
+    "text": "Project: Kabi Tirtha\nTower: Tower 1\nNumber of Floors: G+11",
+    "metadata": {
+      "project_name": "Kabi Tirtha",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+11"
+    }
+  },
+  {
+    "text": "Project: Kabi Tirtha\nTower: Tower 2\nNumber of Floors: G+11",
+    "metadata": {
+      "project_name": "Kabi Tirtha",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_2",
+      "number_of_floors": "G+11"
+    }
+  },
+  {
+    "text": "Project: Kabi Tirtha\nTower: Tower 3\nNumber of Floors: G+11",
+    "metadata": {
+      "project_name": "Kabi Tirtha",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_3",
+      "number_of_floors": "G+11"
+    }
+  },
+  {
+    "text": "Project: Kabi Tirtha\nTower: Tower 4\nNumber of Floors: G+11",
+    "metadata": {
+      "project_name": "Kabi Tirtha",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_4",
+      "number_of_floors": "G+11"
+    }
+  },
+  {
+    "text": "Project: Kabi Tirtha\nLocation: Kabitirtha Abasan,Bibekananda Sarani, near Ramkrishna Mission,Asansol, West Bengal\nDeveloped By: Satyam Construction (Pvt) Ltd.",
+    "metadata": {
+      "project_name": "Kabi Tirtha",
+      "category": "running",
+      "chunk_type": "location",
+      "location": "Kabitirtha Abasan,Bibekananda Sarani, near Ramkrishna Mission,Asansol, West Bengal",
+      "developer": "Satyam Construction (Pvt) Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Rajdeep Apartment\nStatus: Running\nDeveloper: Aniraj Enterprise\nNumber of Towers: 2",
+    "metadata": {
+      "project_name": "Rajdeep Apartment",
+      "category": "running",
+      "chunk_type": "overview",
+      "developer": "Aniraj Enterprise",
+      "tower_count": 2
+    }
+  },
+  {
+    "text": "Project: Rajdeep Apartment\nTower: Tower 1\nNumber of Floors: B+G+4",
+    "metadata": {
+      "project_name": "Rajdeep Apartment",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "B+G+4"
+    }
+  },
+  {
+    "text": "Project: Rajdeep Apartment\nTower: Tower 2\nNumber of Floors: B+G+3",
+    "metadata": {
+      "project_name": "Rajdeep Apartment",
+      "category": "running",
+      "chunk_type": "tower",
+      "tower_id": "tower_2",
+      "number_of_floors": "B+G+3"
+    }
+  },
+  {
+    "text": "Project: Rajdeep Apartment\nLocation: Rajdeep Apartment, Gopalpur, Asansol, West Bengal\nDeveloped By: Aniraj Enterprise",
+    "metadata": {
+      "project_name": "Rajdeep Apartment",
+      "category": "running",
+      "chunk_type": "location",
+      "location": "Rajdeep Apartment, Gopalpur, Asansol, West Bengal",
+      "developer": "Aniraj Enterprise"
+    }
+  },
+  {
+    "text": "Project Name: Deb Apartment\nStatus: Upcoming\nDeveloper: Incite India Pvt. Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Deb Apartment",
+      "category": "upcoming",
+      "chunk_type": "overview",
+      "developer": "Incite India Pvt. Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Deb Apartment\nTower: Tower 1",
+    "metadata": {
+      "project_name": "Deb Apartment",
+      "category": "upcoming",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": ""
+    }
+  },
+  {
+    "text": "Project: Deb Apartment\nLocation: Kulti College Road, Kulti\nDeveloped By: Incite India Pvt. Ltd.",
+    "metadata": {
+      "project_name": "Deb Apartment",
+      "category": "upcoming",
+      "chunk_type": "location",
+      "location": "Kulti College Road, Kulti",
+      "developer": "Incite India Pvt. Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Nilachal Apartment\nStatus: Upcoming\nDeveloper: Astha Finance & Investment Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Nilachal Apartment",
+      "category": "upcoming",
+      "chunk_type": "overview",
+      "developer": "Astha Finance & Investment Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Nilachal Apartment\nTower: Tower 1\nNumber of Floors: G+4",
+    "metadata": {
+      "project_name": "Nilachal Apartment",
+      "category": "upcoming",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+4"
+    }
+  },
+  {
+    "text": "Project: Nilachal Apartment\nLocation: Bliss Apartment,Kalyanpur Housing, Asansol,West Bengal\nDeveloped By: Astha Finance & Investment Ltd.",
+    "metadata": {
+      "project_name": "Nilachal Apartment",
+      "category": "upcoming",
+      "chunk_type": "location",
+      "location": "Bliss Apartment,Kalyanpur Housing, Asansol,West Bengal",
+      "developer": "Astha Finance & Investment Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Olivia Enclave\nStatus: Completed\nDeveloper: Satyam Construction (Pvt) Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Olivia Enclave",
+      "category": "completed",
+      "chunk_type": "overview",
+      "developer": "Satyam Construction (Pvt) Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Olivia Enclave\nTower: Tower 1\nNumber of Floors: G+3",
+    "metadata": {
+      "project_name": "Olivia Enclave",
+      "category": "completed",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+3"
+    }
+  },
+  {
+    "text": "Project: Olivia Enclave\nLocation: Olivia Enclave,Kailash Nagar, ,Bandel, Hoogly,West Bengal\nDeveloped By: Satyam Construction (Pvt) Ltd.",
+    "metadata": {
+      "project_name": "Olivia Enclave",
+      "category": "completed",
+      "chunk_type": "location",
+      "location": "Olivia Enclave,Kailash Nagar, ,Bandel, Hoogly,West Bengal",
+      "developer": "Satyam Construction (Pvt) Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Geetanjali Enclave\nStatus: Completed\nDeveloper: Satyam Construction Pvt. Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Geetanjali Enclave",
+      "category": "completed",
+      "chunk_type": "overview",
+      "developer": "Satyam Construction Pvt. Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Geetanjali Enclave\nTower: Tower 1\nNumber of Floors: G+4",
+    "metadata": {
+      "project_name": "Geetanjali Enclave",
+      "category": "completed",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+4"
+    }
+  },
+  {
+    "text": "Project: Geetanjali Enclave\nLocation: Geetanjali Enclave, Holding No: 75/58, Sarat Sarani Road, Near Olaichanditala Mandir, Hooghly, West Bengal, Pin: 712 103\nDeveloped By: Satyam Construction Pvt. Ltd.",
+    "metadata": {
+      "project_name": "Geetanjali Enclave",
+      "category": "completed",
+      "chunk_type": "location",
+      "location": "Geetanjali Enclave, Holding No: 75/58, Sarat Sarani Road, Near Olaichanditala Mandir, Hooghly, West Bengal, Pin: 712 103",
+      "developer": "Satyam Construction Pvt. Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Omkar Apartment\nStatus: Completed\nDeveloper: Satyam Constructions\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Omkar Apartment",
+      "category": "completed",
+      "chunk_type": "overview",
+      "developer": "Satyam Constructions",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Omkar Apartment\nTower: Tower 1\nNumber of Floors: G+3",
+    "metadata": {
+      "project_name": "Omkar Apartment",
+      "category": "completed",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+3"
+    }
+  },
+  {
+    "text": "Project: Omkar Apartment\nLocation: Omkar Apartment,Gopalpur, Asansol,West Bengal\nDeveloped By: Satyam Constructions",
+    "metadata": {
+      "project_name": "Omkar Apartment",
+      "category": "completed",
+      "chunk_type": "location",
+      "location": "Omkar Apartment,Gopalpur, Asansol,West Bengal",
+      "developer": "Satyam Constructions"
+    }
+  },
+  {
+    "text": "Project Name: Satsang G\nStatus: Completed\nDeveloper: Satyam Construction (Pvt) Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Satsang G",
+      "category": "completed",
+      "chunk_type": "overview",
+      "developer": "Satyam Construction (Pvt) Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Satsang G\nTower: Tower 1\nNumber of Floors: G+3",
+    "metadata": {
+      "project_name": "Satsang G",
+      "category": "completed",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+3"
+    }
+  },
+  {
+    "text": "Project: Satsang G\nLocation: Satsang - G Apartment, Gopalpur, Asansol, West Bengal\nDeveloped By: Satyam Construction (Pvt) Ltd.",
+    "metadata": {
+      "project_name": "Satsang G",
+      "category": "completed",
+      "chunk_type": "location",
+      "location": "Satsang - G Apartment, Gopalpur, Asansol, West Bengal",
+      "developer": "Satyam Construction (Pvt) Ltd."
+    }
+  },
+  {
+    "text": "Project Name: Elina Tower\nStatus: Completed\nDeveloper: Satyam Construction (Pvt) Ltd.\nNumber of Towers: 1",
+    "metadata": {
+      "project_name": "Elina Tower",
+      "category": "completed",
+      "chunk_type": "overview",
+      "developer": "Satyam Construction (Pvt) Ltd.",
+      "tower_count": 1
+    }
+  },
+  {
+    "text": "Project: Elina Tower\nTower: Tower 1\nNumber of Floors: G+4",
+    "metadata": {
+      "project_name": "Elina Tower",
+      "category": "completed",
+      "chunk_type": "tower",
+      "tower_id": "tower_1",
+      "number_of_floors": "G+4"
+    }
+  },
+  {
+    "text": "Project: Elina Tower\nLocation: Elina Tower,Bandel, Hoogly,West Bengal\nDeveloped By: Satyam Construction (Pvt) Ltd.",
+    "metadata": {
+      "project_name": "Elina Tower",
+      "category": "completed",
+      "chunk_type": "location",
+      "location": "Elina Tower,Bandel, Hoogly,West Bengal",
+      "developer": "Satyam Construction (Pvt) Ltd."
+    }
+  }
+]

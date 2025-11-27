@@ -1,0 +1,11 @@
+{
+  "project_name": "Omkar Apartment",
+  "location": "Omkar Apartment,Gopalpur, Asansol,West Bengal",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": "G+3"
+    }
+  },
+  "developed_by": "Satyam Constructions",
+  "category": "completed"
+}

@@ -1,0 +1,11 @@
+{
+  "project_name": "Nilachal Apartment",
+  "location": "Bliss Apartment,Kalyanpur Housing, Asansol,West Bengal",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": "G+4"
+    }
+  },
+  "developed_by": "Astha Finance & Investment Ltd.",
+  "category": "upcoming"
+}

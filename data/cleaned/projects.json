@@ -1,0 +1,212 @@
+[
+  {
+    "project_name": "Aastha Apartment",
+    "location": "Aastha apartment, Neamatpur New Road,West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+4"
+      }
+    },
+    "developed_by": "Astha Finance And Investment Limited",
+    "category": "running",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.942011",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Ashirwad Apartment",
+    "location": "Ashirwad Apartment, Rohinardihi, Kalyanpur Housing Asansol,West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+3"
+      }
+    },
+    "developed_by": "Astha Finance & Investment Ltd.",
+    "category": "running",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.943898",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Alaknanda Apartment",
+    "location": "Alaknanda Apartment, 568/494, Lathbagan,Hooghly, Bandel",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+4"
+      },
+      "tower_2": {
+        "number_of_floors": "B+G+4"
+      }
+    },
+    "developed_by": "Satyam Construction Pvt. Ltd.",
+    "category": "running",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.945190",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Shivalaya",
+    "location": "Holding No: 452/369, 309 Olaichanditala Kazidanga, PS: Chinsurah, Hooghly, West Bengal, Pin: 712 103",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+4"
+      }
+    },
+    "developed_by": "Satyam Construction Pvt. Ltd.",
+    "category": "running",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.946742",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Kabi Tirtha",
+    "location": "Kabitirtha Abasan,Bibekananda Sarani, near Ramkrishna Mission,Asansol, West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+11"
+      },
+      "tower_2": {
+        "number_of_floors": "G+11"
+      },
+      "tower_3": {
+        "number_of_floors": "G+11"
+      },
+      "tower_4": {
+        "number_of_floors": "G+11"
+      }
+    },
+    "developed_by": "Satyam Construction (Pvt) Ltd.",
+    "category": "running",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.948409",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Rajdeep Apartment",
+    "location": "Rajdeep Apartment, Gopalpur, Asansol, West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "B+G+4"
+      },
+      "tower_2": {
+        "number_of_floors": "B+G+3"
+      }
+    },
+    "developed_by": "Aniraj Enterprise",
+    "category": "running",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.950267",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Deb Apartment",
+    "location": "Kulti College Road, Kulti",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": ""
+      }
+    },
+    "developed_by": "Incite India Pvt. Ltd.",
+    "category": "upcoming",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.951755",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Nilachal Apartment",
+    "location": "Bliss Apartment,Kalyanpur Housing, Asansol,West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+4"
+      }
+    },
+    "developed_by": "Astha Finance & Investment Ltd.",
+    "category": "upcoming",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.953562",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Olivia Enclave",
+    "location": "Olivia Enclave,Kailash Nagar, ,Bandel, Hoogly,West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+3"
+      }
+    },
+    "developed_by": "Satyam Construction (Pvt) Ltd.",
+    "category": "completed",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.955833",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Geetanjali Enclave",
+    "location": "Geetanjali Enclave, Holding No: 75/58, Sarat Sarani Road, Near Olaichanditala Mandir, Hooghly, West Bengal, Pin: 712 103",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+4"
+      }
+    },
+    "developed_by": "Satyam Construction Pvt. Ltd.",
+    "category": "completed",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.957465",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Omkar Apartment",
+    "location": "Omkar Apartment,Gopalpur, Asansol,West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+3"
+      }
+    },
+    "developed_by": "Satyam Constructions",
+    "category": "completed",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.958691",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Satsang G",
+    "location": "Satsang - G Apartment, Gopalpur, Asansol, West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+3"
+      }
+    },
+    "developed_by": "Satyam Construction (Pvt) Ltd.",
+    "category": "completed",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.960730",
+      "source": "web_scraping"
+    }
+  },
+  {
+    "project_name": "Elina Tower",
+    "location": "Elina Tower,Bandel, Hoogly,West Bengal",
+    "towers": {
+      "tower_1": {
+        "number_of_floors": "G+4"
+      }
+    },
+    "developed_by": "Satyam Construction (Pvt) Ltd.",
+    "category": "completed",
+    "metadata": {
+      "cleaned_at": "2025-11-27T22:35:17.962060",
+      "source": "web_scraping"
+    }
+  }
+]

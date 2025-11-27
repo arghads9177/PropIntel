@@ -1,0 +1,20 @@
+{
+  "project_name": "Kabi Tirtha",
+  "location": "Kabitirtha Abasan,Bibekananda Sarani, near Ramkrishna Mission,Asansol, West Bengal",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": "G+11"
+    },
+    "tower_2": {
+      "number_of_floors": "G+11"
+    },
+    "tower_3": {
+      "number_of_floors": "G+11"
+    },
+    "tower_4": {
+      "number_of_floors": "G+11"
+    }
+  },
+  "developed_by": "Satyam Construction (Pvt) Ltd.",
+  "category": "running"
+}

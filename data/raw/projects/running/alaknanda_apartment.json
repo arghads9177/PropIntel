@@ -1,0 +1,14 @@
+{
+  "project_name": "Alaknanda Apartment",
+  "location": "Alaknanda Apartment, 568/494, Lathbagan,Hooghly, Bandel",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": "G+4"
+    },
+    "tower_2": {
+      "number_of_floors": "B+G+4"
+    }
+  },
+  "developed_by": "Satyam Construction Pvt. Ltd.",
+  "category": "running"
+}

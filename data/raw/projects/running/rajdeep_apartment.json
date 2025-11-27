@@ -1,0 +1,14 @@
+{
+  "project_name": "rajdeep apartment",
+  "location": "Rajdeep Apartment, Gopalpur, Asansol, West Bengal",
+  "towers": {
+    "tower1_": {
+      "number_of_floors": "B+G+4"
+    },
+    "tower2_": {
+      "number_of_floors": "B+G+3"
+    }
+  },
+  "developed_by": "Aniraj Enterprise",
+  "category": "running"
+}

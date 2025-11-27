@@ -1,0 +1,11 @@
+{
+  "project_name": "Aastha Apartment",
+  "location": "Aastha apartment, Neamatpur New Road,West Bengal",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": "G+4"
+    }
+  },
+  "developed_by": "Astha finance and investment limited",
+  "category": "running"
+}

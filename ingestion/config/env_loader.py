@@ -64,6 +64,7 @@ class EnvironmentConfig:
             # Storage Configuration
             'raw_data_path': os.getenv('RAW_DATA_PATH', './data/raw'),
             'processed_data_path': os.getenv('PROCESSED_DATA_PATH', './data/processed'),
+            'chroma_db_path': os.getenv('CHROMA_DB_PATH', './data/chromadb'),
             
             # API Keys (for LLM integration)
             'OPENAI_API_KEY': os.getenv('OPENAI_API_KEY'),
@@ -149,8 +150,13 @@ class EnvironmentConfig:
         """Get storage paths for data."""
         return {
             'raw_data': self.config['raw_data_path'],
-            'processed_data': self.config['processed_data_path']
+            'processed_data': self.config['processed_data_path'],
+            'chroma_db': self.config['chroma_db_path']
         }
+    
+    def get_chroma_db_path(self) -> str:
+        """Get the ChromaDB storage path."""
+        return self.config['chroma_db_path']
     
     def get_logger(self) -> logging.Logger:
         """Get configured logger instance."""

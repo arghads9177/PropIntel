@@ -1,0 +1,11 @@
+{
+  "project_name": "Ashirwad Apartment",
+  "location": "Ashirwad Apartment, Rohinardihi, Kalyanpur Housing Asansol,West Bengal",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": "G+3"
+    }
+  },
+  "developed_by": "Astha Finance & Investment Ltd.",
+  "category": "running"
+}

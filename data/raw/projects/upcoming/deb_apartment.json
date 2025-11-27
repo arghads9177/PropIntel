@@ -1,0 +1,11 @@
+{
+  "project_name": "Deb Apartment",
+  "location": "Kulti College Road, Kulti",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": ""
+    }
+  },
+  "developed_by": "Incite India Pvt. Ltd.",
+  "category": "upcoming"
+}

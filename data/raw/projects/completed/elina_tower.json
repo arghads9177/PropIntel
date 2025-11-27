@@ -1,0 +1,11 @@
+{
+  "project_name": "Elina Tower",
+  "location": "Elina Tower,Bandel, Hoogly,West Bengal",
+  "towers": {
+    "tower_1": {
+      "number_of_floors": "G+4"
+    }
+  },
+  "developed_by": "Satyam Construction (Pvt) Ltd.",
+  "category": "completed"
+}
