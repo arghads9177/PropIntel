@@ -28,13 +28,13 @@ class ChromaDBManager:
     - Metadata indexing
     """
     
-    def __init__(self, persist_directory: Optional[str] = None, collection_name: str = "propintel_companies"):
+    def __init__(self, persist_directory: Optional[str] = None, collection_name: Optional[str] = None):
         """
         Initialize ChromaDB manager.
         
         Args:
             persist_directory: Path to persist the database (default from .env)
-            collection_name: Name of the collection to use
+            collection_name: Name of the collection to use (default: propintel_companies)
         """
         self.logger = logging.getLogger(__name__)
         self.config = get_config()
@@ -50,7 +50,7 @@ class ChromaDBManager:
         self.client = self._initialize_client()
         
         # Get or create collection
-        self.collection_name = collection_name
+        self.collection_name = collection_name or "propintel_companies"
         self.collection = self._get_or_create_collection()
         
         # Track statistics
@@ -60,7 +60,7 @@ class ChromaDBManager:
             'errors': 0
         }
         
-        self.logger.info(f"ChromaDBManager initialized with collection: {collection_name}")
+        self.logger.info(f"ChromaDBManager initialized with collection: {self.collection_name}")
     
     def _initialize_client(self) -> chromadb.Client:
         """Initialize ChromaDB client with persistence"""
@@ -318,6 +318,83 @@ class ChromaDBManager:
         """Get operation statistics"""
         return self.stats.copy()
     
+    def switch_collection(self, collection_name: str) -> bool:
+        """
+        Switch to a different collection.
+        
+        Args:
+            collection_name: Name of the collection to switch to
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            self.logger.info(f"Switching from '{self.collection_name}' to '{collection_name}'")
+            self.collection_name = collection_name
+            self.collection = self._get_or_create_collection()
+            self.logger.info(f"Successfully switched to collection: {collection_name}")
+            return True
+        except Exception as e:
+            self.logger.error(f"Error switching collection: {e}")
+            return False
+    
+    def get_available_collections(self) -> List[str]:
+        """
+        Get list of all available collections in the database.
+        
+        Returns:
+            List of collection names
+        """
+        try:
+            collections = self.client.list_collections()
+            collection_names = [col.name for col in collections]
+            self.logger.info(f"Found {len(collection_names)} collections: {collection_names}")
+            return collection_names
+        except Exception as e:
+            self.logger.error(f"Error listing collections: {e}")
+            return []
+    
+    def get_collection_info(self, collection_name: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Get detailed information about a collection.
+        
+        Args:
+            collection_name: Name of collection (default: current collection)
+            
+        Returns:
+            Dictionary with collection information
+        """
+        try:
+            if collection_name and collection_name != self.collection_name:
+                # Temporarily get the other collection
+                temp_collection = self.client.get_collection(name=collection_name)
+                count = temp_collection.count()
+                sample = temp_collection.peek(limit=1)
+            else:
+                count = self.collection.count()
+                sample = self.collection.peek(limit=1)
+                collection_name = self.collection_name
+            
+            return {
+                'name': collection_name,
+                'count': count,
+                'sample_metadata': sample['metadatas'][0] if sample.get('metadatas') else None,
+                'has_documents': count > 0
+            }
+        except Exception as e:
+            self.logger.error(f"Error getting collection info: {e}")
+            return {'name': collection_name, 'count': 0, 'error': str(e)}
+    
+    def list_all_collections_info(self) -> List[Dict[str, Any]]:
+        """
+        Get information about all collections.
+        
+        Returns:
+            List of dictionaries with collection information
+        """
+        collections = self.get_available_collections()
+        return [self.get_collection_info(name) for name in collections]
+    
     def query(
         self,
         query_embedding: List[float],
@@ -330,12 +407,17 @@ class ChromaDBManager:
         Args:
             query_embedding: Query embedding vector
             n_results: Number of results to return
-            where: Optional metadata filter
+            where: Optional metadata filter (ChromaDB format)
             
         Returns:
             Query results with documents, distances, and metadata
         """
         try:
+            # Convert filters to ChromaDB format if needed
+            if where and len(where) > 1:
+                # Multiple filters need $and operator
+                where = {"$and": [{k: v} for k, v in where.items()]}
+            
             results = self.collection.query(
                 query_embeddings=[query_embedding],
                 n_results=n_results,

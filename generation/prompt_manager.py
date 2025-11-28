@@ -37,7 +37,7 @@ class PromptManager:
     # System prompts for different scenarios
     SYSTEM_PROMPTS = {
         'default': """You are a helpful AI assistant for PropIntel, a real estate information system.
-Your role is to provide accurate, concise answers about real estate companies based on the provided context.
+Your role is to provide accurate, concise answers about real estate companies and projects based on the provided context.
 
 Guidelines:
 - Only use information from the provided context
@@ -48,30 +48,43 @@ Guidelines:
 - Maintain a professional, helpful tone""",
         
         'detailed': """You are an expert real estate analyst for PropIntel.
-Provide comprehensive, detailed answers about real estate companies based on the context.
+Provide comprehensive, detailed answers about real estate companies and projects based on the context.
 
 Guidelines:
 - Analyze and synthesize information from the context
 - Provide detailed explanations when appropriate
-- Include all relevant information (specializations, locations, contact details)
+- Include all relevant information (specializations, locations, contact details, project details)
 - Structure answers clearly with sections
 - Use bullet points for lists
 - Only use information from the context - never make up information
 - If uncertain or information is missing, explicitly state that""",
         
         'concise': """You are a concise AI assistant for PropIntel.
-Provide brief, direct answers about real estate companies.
+Provide brief, direct answers about real estate companies and projects.
 
 Guidelines:
 - Keep answers short and to the point
 - Use 1-2 sentences when possible
 - Only include essential information
 - Use the context provided
-- If information is not available, say so briefly"""
+- If information is not available, say so briefly""",
+        
+        'project_focused': """You are a real estate project information specialist for PropIntel.
+Provide detailed, accurate information about real estate projects including tower configurations, floor counts, locations, and developer details.
+
+Guidelines:
+- Focus on project-specific information: towers, floors, status, location, developer
+- When multiple towers exist, clearly differentiate between them
+- Always mention the project status (upcoming/running/completed)
+- For floor queries, specify which tower the information relates to
+- Use structured formatting for multi-tower projects
+- Only use information from the context chunks provided
+- Cite the chunk type (overview/tower/location) when relevant for accuracy"""
     }
     
     # Few-shot examples for better performance
     FEW_SHOT_EXAMPLES = [
+        # Company-focused examples
         {
             'query': 'What does the company specialize in?',
             'context': 'Specializations: Residential Complexes, Commercial Buildings, Townships',
@@ -86,6 +99,22 @@ Guidelines:
             'query': 'Where do they operate?',
             'context': 'Service Areas: Asansol, Bandel, Hooghly',
             'answer': 'They operate in Asansol, Bandel, and Hooghly.'
+        },
+        # Project-focused examples
+        {
+            'query': 'How many floors does Kabi Tirtha have?',
+            'context': 'Project: Kabi Tirtha\nTower 1: G+11\nTower 2: G+10\nTower 3: G+8\nTower 4: G+8',
+            'answer': 'Kabi Tirtha has 4 towers with the following floor configurations:\n- Tower 1: G+11 (Ground + 11 floors)\n- Tower 2: G+10 (Ground + 10 floors)\n- Tower 3: G+8 (Ground + 8 floors)\n- Tower 4: G+8 (Ground + 8 floors)'
+        },
+        {
+            'query': 'What upcoming projects are there?',
+            'context': 'Project: Deb Apartment, Status: Upcoming, Developer: Incite India Pvt. Ltd.\nProject: Nilachal Apartment, Status: Upcoming, Developer: Astha Finance',
+            'answer': 'There are 2 upcoming projects:\n1. Deb Apartment - Developed by Incite India Pvt. Ltd.\n2. Nilachal Apartment - Developed by Astha Finance & Investment Ltd.'
+        },
+        {
+            'query': 'Tell me about Urban Residency project',
+            'context': 'Project Name: Urban Residency\nStatus: Running\nDeveloper: Metro Properties\nLocation: New Town, Kolkata\nTowers: 2',
+            'answer': 'Urban Residency is a running project being developed by Metro Properties. It is located in New Town, Kolkata and consists of 2 towers.'
         }
     ]
     
@@ -148,6 +177,18 @@ User asked: {query}
 
 Let me help you with that:"""
         )
+        
+        # Project-focused template
+        self.templates['project'] = PromptTemplate(
+            name='project',
+            system_prompt=self.SYSTEM_PROMPTS['project_focused'],
+            user_template="""Project Information:
+{context}
+
+Question: {query}
+
+Please provide a detailed answer about the project based on the information above. If the project has multiple towers, clearly specify which tower each detail belongs to."""
+        )
     
     def format_context(
         self,
@@ -198,13 +239,29 @@ Let me help you with that:"""
         # Add metadata if requested
         if include_metadata:
             metadata = result.get('metadata', {})
-            section = metadata.get('section', 'N/A')
-            subsection = metadata.get('subsection', '')
             
-            if subsection:
-                parts.append(f"Section: {section}/{subsection}")
-            else:
-                parts.append(f"Section: {section}")
+            # Handle both company and project metadata
+            if 'section' in metadata:
+                # Company data
+                section = metadata.get('section', 'N/A')
+                subsection = metadata.get('subsection', '')
+                
+                if subsection:
+                    parts.append(f"Section: {section}/{subsection}")
+                else:
+                    parts.append(f"Section: {section}")
+            elif 'chunk_type' in metadata:
+                # Project data
+                chunk_type = metadata.get('chunk_type', 'N/A')
+                project_name = metadata.get('project_name', 'Unknown')
+                
+                if chunk_type == 'tower':
+                    tower_id = metadata.get('tower_id', 'N/A')
+                    parts.append(f"Type: Project - {chunk_type.capitalize()} ({tower_id})")
+                    parts.append(f"Project: {project_name}")
+                else:
+                    parts.append(f"Type: Project - {chunk_type.capitalize()}")
+                    parts.append(f"Project: {project_name}")
         
         # Add content
         content = result.get('content', '')
@@ -359,12 +416,21 @@ Let me help you with that:"""
         
         # Add context based on query type
         enhancements = {
+            # Company-related
             'specialization': "Focus on the company's services and areas of expertise.",
             'contact': "Provide all available contact information including phone, email, and address.",
             'location': "Focus on geographic areas and service locations.",
             'about': "Provide a comprehensive overview of the company.",
             'timing': "Focus on office hours and availability.",
-            'social': "Provide social media links and online presence."
+            'social': "Provide social media links and online presence.",
+            # Project-related
+            'project_info': "Focus on project details including name, status, developer, and location.",
+            'floors': "Provide floor count information. If multiple towers exist, specify which tower.",
+            'towers': "Provide information about all towers in the project.",
+            'project_status': "Focus on the project status (upcoming/running/completed) and key details.",
+            'tower_info': "Provide detailed information about the specific tower mentioned.",
+            'project_details': "Provide comprehensive project information including all available details.",
+            'project_list': "List all projects matching the criteria with their key details.",
         }
         
         enhancement = enhancements.get(query_type, "")

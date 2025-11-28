@@ -35,10 +35,18 @@ class QueryProcessor:
         'project': ['development', 'scheme', 'property'],
         'price': ['cost', 'rate', 'pricing', 'charges'],
         'amenity': ['facility', 'feature', 'service'],
+        # Project-specific synonyms
+        'upcoming': ['future', 'planned', 'new', 'forthcoming'],
+        'running': ['ongoing', 'current', 'in progress', 'active', 'under construction'],
+        'completed': ['finished', 'done', 'delivered', 'ready', 'handover'],
+        'tower': ['block', 'building', 'wing'],
+        'floor': ['storey', 'level', 'story'],
+        'developer': ['builder', 'constructor', 'company'],
     }
     
     # Common real estate query patterns
     QUERY_PATTERNS = {
+        # Company-related patterns
         'contact': r'(contact|phone|email|reach|call|connect|address|office|branch|location of)',
         'timing': r'(timing|hours|when|schedule|open|close)',
         'social': r'(social|facebook|twitter|linkedin|instagram|youtube)',
@@ -46,7 +54,14 @@ class QueryProcessor:
         'location': r'(where|which area|which location|service area)',
         'about': r'(about|tell me|information|who|what is)',
         'price': r'(price|cost|rate|how much|pricing)',
-        'project': r'(project|development|property|scheme)',
+        # Project-specific patterns
+        'project_info': r'(project|development|property|scheme)',
+        'floors': r'(floor|storey|storied|how tall|height|how many floor|number of floor)',
+        'towers': r'(tower|block|building|how many towers|which tower|number of tower)',
+        'project_status': r'(upcoming|running|completed|status|ongoing|under construction|finished)',
+        'tower_info': r'(tower \w+|block \w+|tower information|details of tower)',
+        'project_details': r'(project detail|tell me about.*project|information about.*project|describe)',
+        'project_list': r'(list|show|all|what are|which are).*(project|development)',
     }
     
     def __init__(self):
@@ -157,6 +172,7 @@ class QueryProcessor:
     def detect_query_type(self, query: str) -> Optional[str]:
         """
         Detect the type of query based on patterns.
+        Priority: More specific patterns first.
         
         Args:
             query: Query text
@@ -166,9 +182,29 @@ class QueryProcessor:
         """
         query_lower = query.lower()
         
-        for query_type, pattern in self.QUERY_PATTERNS.items():
-            if re.search(pattern, query_lower):
-                return query_type
+        # Check patterns in priority order (most specific first)
+        priority_order = [
+            'project_status',     # upcoming/running/completed (specific)
+            'floors',             # floor-related queries
+            'towers',             # tower-related queries
+            'tower_info',         # specific tower information
+            'project_list',       # list/show projects
+            'project_details',    # project detail queries
+            'contact',            # contact information
+            'timing',             # business hours
+            'social',             # social media
+            'specialization',     # company specialization
+            'location',           # location/area queries
+            'price',              # pricing queries
+            'project_info',       # general project queries
+            'about',              # general about queries
+        ]
+        
+        for query_type in priority_order:
+            if query_type in self.QUERY_PATTERNS:
+                pattern = self.QUERY_PATTERNS[query_type]
+                if re.search(pattern, query_lower):
+                    return query_type
         
         return 'general'
     
@@ -185,20 +221,21 @@ class QueryProcessor:
         entities = []
         
         # Simple entity extraction (can be enhanced with NER)
-        # Extract capitalized words as potential company names
+        # Extract capitalized words as potential company/project names
         capitalized_words = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', query)
         
         for word in capitalized_words:
             entities.append({
                 'text': word,
-                'type': 'company_name'
+                'type': 'proper_name'  # Could be company or project
             })
         
         # Extract locations (Indian cities - expandable)
         indian_cities = [
             'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Kolkata',
             'Chennai', 'Pune', 'Ahmedabad', 'Jaipur', 'Surat',
-            'Asansol', 'Bandel', 'Hooghly', 'Durgapur'
+            'Asansol', 'Bandel', 'Hooghly', 'Durgapur', 'Lathbagan',
+            'Kailash Nagar', 'Madhyamgram', 'New Town', 'Rajarhat'
         ]
         
         for city in indian_cities:
@@ -207,6 +244,22 @@ class QueryProcessor:
                     'text': city,
                     'type': 'location'
                 })
+        
+        # Extract project status
+        if re.search(r'\bupcoming\b', query, re.IGNORECASE):
+            entities.append({'text': 'upcoming', 'type': 'project_status'})
+        if re.search(r'\brunning\b|\bongoing\b|\bunder construction\b', query, re.IGNORECASE):
+            entities.append({'text': 'running', 'type': 'project_status'})
+        if re.search(r'\bcompleted\b|\bfinished\b|\bready\b', query, re.IGNORECASE):
+            entities.append({'text': 'completed', 'type': 'project_status'})
+        
+        # Extract tower identifiers
+        tower_match = re.search(r'tower\s+(\d+|[a-z])', query, re.IGNORECASE)
+        if tower_match:
+            entities.append({
+                'text': f'tower_{tower_match.group(1).lower()}',
+                'type': 'tower_id'
+            })
         
         return entities
     
@@ -227,20 +280,86 @@ class QueryProcessor:
         """
         filters = {}
         
-        # Section-based filters
-        # Contact-related queries (phone, email, address, office, timing)
+        # Company-related filters (section-based)
         if query_type in ['contact', 'timing']:
             filters['section'] = 'contact_details'
-        # Social media queries
         elif query_type == 'social':
             filters['section'] = 'social_media'
-        # Company info queries (only for specific types, not general queries)
         elif query_type == 'specialization':
             filters['section'] = 'company_info'
-        # For 'about', 'location', and 'general' queries, don't apply section filter
-        # to allow searching across all sections
+        
+        # Project-related filters
+        if query_type in ['project_status', 'project_list', 'project_details', 'project_info']:
+            # Extract project status from query
+            category = self._extract_project_category(query)
+            if category:
+                filters['category'] = category
+        
+        if query_type in ['towers', 'tower_info']:
+            # Filter for tower chunks
+            filters['chunk_type'] = 'tower'
+            # Try to extract specific tower ID
+            tower_id = self._extract_tower_id(query)
+            if tower_id:
+                filters['tower_id'] = tower_id
+        
+        if query_type == 'floors':
+            # Floor queries usually relate to towers
+            filters['chunk_type'] = 'tower'
+            # Try to extract tower ID for specific tower
+            tower_id = self._extract_tower_id(query)
+            if tower_id:
+                filters['tower_id'] = tower_id
+        
+        if query_type == 'location':
+            # Could be company service area or project location
+            # Check if query mentions project keywords
+            if re.search(r'\bproject\b|\bdevelopment\b|\bproperty\b', query, re.IGNORECASE):
+                filters['chunk_type'] = 'location'
         
         return filters
+    
+    def _extract_project_category(self, query: str) -> Optional[str]:
+        """
+        Extract project category/status from query.
+        
+        Args:
+            query: Query text
+            
+        Returns:
+            Category string ('upcoming', 'running', 'completed') or None
+        """
+        query_lower = query.lower()
+        
+        if re.search(r'\bupcoming\b|\bfuture\b|\bplanned\b|\bnew\b|\bforthcoming\b', query_lower):
+            return 'upcoming'
+        elif re.search(r'\brunning\b|\bongoing\b|\bcurrent\b|\bactive\b|\bunder construction\b|\bin progress\b', query_lower):
+            return 'running'
+        elif re.search(r'\bcompleted\b|\bfinished\b|\bready\b|\bdelivered\b|\bhandover\b|\bdone\b', query_lower):
+            return 'completed'
+        
+        return None
+    
+    def _extract_tower_id(self, query: str) -> Optional[str]:
+        """
+        Extract tower ID from query.
+        
+        Args:
+            query: Query text
+            
+        Returns:
+            Tower ID string or None
+        """
+        # Match patterns like "Tower 1", "Block A", "tower_1"
+        match = re.search(r'tower\s+(\d+|[a-z]|one|two|three|four)', query, re.IGNORECASE)
+        if match:
+            tower_num = match.group(1).lower()
+            # Convert word numbers to digits
+            word_to_num = {'one': '1', 'two': '2', 'three': '3', 'four': '4'}
+            tower_num = word_to_num.get(tower_num, tower_num)
+            return f'tower_{tower_num}'
+        
+        return None
     
     def generate_multi_queries(
         self,

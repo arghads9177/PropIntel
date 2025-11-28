@@ -14,6 +14,7 @@ import chromadb
 from chromadb.config import Settings
 
 from ingestion.config.env_loader import get_config
+from ingestion.vector_db.embedding_generator import EmbeddingGenerator
 
 
 class ProjectVectorIngestor:
@@ -29,6 +30,9 @@ class ProjectVectorIngestor:
         self.config = get_config()
         self.logger = self.config.get_logger()
         
+        # Initialize embedding generator (use OpenAI for consistency)
+        self.embedder = EmbeddingGenerator(model_name='openai')
+        
         # Initialize ChromaDB client
         self.chroma_client = chromadb.PersistentClient(
             path=str(self.config.get_chroma_db_path())
@@ -43,6 +47,7 @@ class ProjectVectorIngestor:
         self.logger.info(f"ProjectVectorIngestor initialized")
         self.logger.info(f"Collection: {collection_name}")
         self.logger.info(f"ChromaDB path: {self.config.get_chroma_db_path()}")
+        self.logger.info(f"Embedding model: openai (text-embedding-3-small)")
     
     def ingest_chunks(self, chunks: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
@@ -109,17 +114,31 @@ class ProjectVectorIngestor:
                 stats['failed'] += 1
                 stats['failed_chunks'].append(i)
         
-        # Add batch to collection
-        if ids:
+        # Generate embeddings for all documents
+        if documents:
             try:
+                self.logger.info(f"Generating embeddings for {len(documents)} documents...")
+                embeddings = self.embedder.generate_embeddings(documents)
+                
+                if not embeddings or len(embeddings) != len(documents):
+                    self.logger.error(f"Embedding generation failed or mismatch: {len(embeddings)} vs {len(documents)}")
+                    stats['failed'] = len(documents)
+                    stats['successful'] = 0
+                    return stats
+                
+                self.logger.info(f"Successfully generated {len(embeddings)} embeddings")
+                
+                # Add batch to collection with embeddings
                 self.collection.add(
                     ids=ids,
                     documents=documents,
-                    metadatas=metadatas
+                    metadatas=metadatas,
+                    embeddings=embeddings
                 )
-                self.logger.info(f"Successfully ingested {len(ids)} chunks")
+                self.logger.info(f"Successfully ingested {len(ids)} chunks into ChromaDB")
+                
             except Exception as e:
-                self.logger.error(f"Error adding to collection: {e}", exc_info=True)
+                self.logger.error(f"Error during ingestion: {e}", exc_info=True)
                 stats['failed'] = len(ids)
                 stats['successful'] = 0
         

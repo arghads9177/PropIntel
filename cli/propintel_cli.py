@@ -20,6 +20,7 @@ sys.path.insert(0, str(project_root))
 from generation.answer_generator import AnswerGenerator
 from cli.session_manager import SessionManager
 from cli.formatter import CLIFormatter
+from retrieval.collection_router import get_router
 
 
 class PropIntelCLI:
@@ -39,6 +40,7 @@ class PropIntelCLI:
         self.formatter = CLIFormatter()
         self.session = SessionManager()
         self.generator: Optional[AnswerGenerator] = None
+        self.collection_router = get_router()
         self.config = self._load_config()
         self.running = False
         
@@ -58,6 +60,8 @@ class PropIntelCLI:
             "template": "default",
             "show_sources": True,
             "show_metadata": True,
+            "show_collection": True,
+            "collection_mode": "auto",  # auto, company, project
             "verbose": False,
             "max_history": 50
         }
@@ -143,16 +147,48 @@ class PropIntelCLI:
         """Handle a user query"""
         print()  # Blank line
         
+        # Determine collection based on mode
+        collection_name = None
+        if self.config.get('collection_mode') == 'auto':
+            # Use router to auto-detect
+            routing_info = self.collection_router.route_with_confidence(query)
+            collection_name = routing_info['collection']
+            confidence = routing_info['confidence']
+            
+            # Show collection info if enabled
+            if self.config.get('show_collection'):
+                collection_type = "Project" if "knowledge" in collection_name else "Company"
+                print(f"🔍 Querying {collection_type} data (confidence: {confidence:.0%})")
+        elif self.config.get('collection_mode') == 'project':
+            collection_name = 'propintel_knowledge'
+            if self.config.get('show_collection'):
+                print("🔍 Querying Project data")
+        elif self.config.get('collection_mode') == 'company':
+            collection_name = 'propintel_companies'
+            if self.config.get('show_collection'):
+                print("🔍 Querying Company data")
+        
         # Show thinking indicator
         if not self.config.get('verbose'):
             self.formatter.print_thinking()
         
         try:
+            # Set collection in generator's retriever if available
+            if collection_name and hasattr(self.generator, 'orchestrator'):
+                if hasattr(self.generator.orchestrator, 'retriever'):
+                    self.generator.orchestrator.retriever.switch_collection(collection_name)
+            
             # Generate answer
             result = self.generator.generate_answer(
                 query=query,
                 template_name=self.config.get('template', 'default')
             )
+            
+            # Add collection info to result
+            if collection_name:
+                if 'metadata' not in result:
+                    result['metadata'] = {}
+                result['metadata']['collection'] = collection_name
             
             # Clear thinking indicator
             if not self.config.get('verbose'):
@@ -214,6 +250,10 @@ class PropIntelCLI:
             self._cmd_template(cmd)
         elif cmd.startswith('/provider '):
             self._cmd_provider(cmd)
+        elif cmd.startswith('/mode '):
+            self._cmd_mode(cmd)
+        elif cmd == '/collections':
+            self._cmd_collections()
         else:
             self.formatter.print_error(f"Unknown command: {command}")
             print("Type /help for available commands.")
@@ -234,6 +274,7 @@ COMMANDS:
   /help              Show this help message
   /history           Show conversation history
   /stats             Show pipeline statistics
+  /collections       Show available collections and their info
   /clear             Clear conversation history
   /export            Export session to file
   /verbose           Toggle verbose mode
@@ -244,15 +285,22 @@ CONFIGURATION:
   /config <key> <value>        Set configuration value
   /template <name>             Set prompt template (default/detailed/concise/conversational)
   /provider <name>             Set LLM provider (groq/openai/gemini)
+  /mode <type>                 Set collection mode (auto/company/project)
 
 CONFIGURATION KEYS:
   show_sources      Show source documents (true/false)
   show_metadata     Show response metadata (true/false)
+  show_collection   Show which collection is queried (true/false)
+  collection_mode   Collection routing mode (auto/company/project)
   verbose           Show detailed logs (true/false)
 
 EXAMPLES:
   What does Astha specialize in?
-  How can I contact Astha?
+  Tell me about Kabi Tirtha project
+  How many floors in Urban Residency?
+  What upcoming projects are there?
+  /mode project
+  /collections
   /template detailed
   /config show_sources false
   /history
@@ -437,6 +485,81 @@ TIPS:
         self.formatter.print_success("Thank you for using PropIntel! Goodbye! 👋")
         print()
         self.running = False
+    
+    def _cmd_mode(self, command: str):
+        """Set collection mode"""
+        parts = command.split()
+        if len(parts) < 2:
+            self.formatter.print_error("Usage: /mode <type>")
+            print("Available modes: auto, company, project")
+            return
+        
+        mode = parts[1].lower()
+        valid_modes = ['auto', 'company', 'project']
+        
+        if mode not in valid_modes:
+            self.formatter.print_error(f"Invalid mode: {mode}")
+            print(f"Available: {', '.join(valid_modes)}")
+            return
+        
+        self.config['collection_mode'] = mode
+        self._save_config()
+        
+        mode_desc = {
+            'auto': 'Auto-detect (company or project based on query)',
+            'company': 'Always query company data',
+            'project': 'Always query project data'
+        }
+        
+        self.formatter.print_success(f"Collection mode: {mode}")
+        print(f"  → {mode_desc[mode]}")
+        print()
+    
+    def _cmd_collections(self):
+        """Show available collections and their information"""
+        if not self.generator:
+            self.formatter.print_error("Generator not initialized")
+            return
+        
+        print("\n" + "═" * 80)
+        print("📚 AVAILABLE COLLECTIONS")
+        print("═" * 80 + "\n")
+        
+        try:
+            # Get collections info from retriever
+            if hasattr(self.generator, 'orchestrator'):
+                if hasattr(self.generator.orchestrator, 'retriever'):
+                    retriever = self.generator.orchestrator.retriever
+                    collections = retriever.list_available_collections()
+                    
+                    for col_name in collections:
+                        info = retriever.db_manager.get_collection_info(col_name)
+                        
+                        # Determine collection type
+                        col_type = "Project" if "knowledge" in col_name else "Company"
+                        
+                        print(f"📁 {col_name}")
+                        print(f"   Type:      {col_type} Data")
+                        print(f"   Documents: {info.get('count', 0)}")
+                        print(f"   Status:    {'✓ Active' if info.get('has_documents') else '✗ Empty'}")
+                        print()
+                    
+                    # Show current mode
+                    current_mode = self.config.get('collection_mode', 'auto')
+                    print(f"Current Mode: {current_mode}")
+                    print(f"Use /mode <auto|company|project> to change")
+                else:
+                    self.formatter.print_error("Retriever not available")
+            else:
+                self.formatter.print_error("Orchestrator not available")
+        
+        except Exception as e:
+            self.formatter.print_error(f"Error getting collections: {e}")
+            if self.config.get('verbose'):
+                import traceback
+                traceback.print_exc()
+        
+        print("\n" + "═" * 80 + "\n")
 
 
 def main():

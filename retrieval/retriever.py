@@ -51,7 +51,7 @@ class RetrieverService:
         self,
         db_manager: Optional[ChromaDBManager] = None,
         embedder: Optional[EmbeddingGenerator] = None,
-        collection_name: str = "propintel_companies",
+        collection_name: Optional[str] = None,
         persist_directory: Optional[str] = None
     ):
         """
@@ -60,7 +60,7 @@ class RetrieverService:
         Args:
             db_manager: ChromaDB manager instance (creates new if None)
             embedder: Embedding generator instance (creates new if None)
-            collection_name: Name of ChromaDB collection
+            collection_name: Name of ChromaDB collection (default: propintel_companies)
             persist_directory: Path to ChromaDB persistence directory
         """
         self.logger = logging.getLogger(__name__)
@@ -79,7 +79,8 @@ class RetrieverService:
         self,
         query: str,
         n_results: int = 5,
-        filters: Optional[Dict[str, Any]] = None
+        filters: Optional[Dict[str, Any]] = None,
+        collection_name: Optional[str] = None
     ) -> List[RetrievalResult]:
         """
         Retrieve documents using semantic search.
@@ -88,11 +89,18 @@ class RetrieverService:
             query: Search query text
             n_results: Number of results to return
             filters: Optional metadata filters (e.g., {'company_id': 'astha'})
+            collection_name: Optional collection name to query (switches temporarily if provided)
             
         Returns:
             List of RetrievalResult objects sorted by relevance
         """
         self.logger.info(f"Retrieving documents for query: '{query}' (n={n_results})")
+        
+        # Switch collection if specified
+        original_collection = None
+        if collection_name and collection_name != self.db_manager.collection_name:
+            original_collection = self.db_manager.collection_name
+            self.db_manager.switch_collection(collection_name)
         
         try:
             # Generate query embedding
@@ -120,6 +128,10 @@ class RetrieverService:
         except Exception as e:
             self.logger.error(f"Error during retrieval: {e}")
             return []
+        finally:
+            # Restore original collection if we switched
+            if original_collection:
+                self.db_manager.switch_collection(original_collection)
     
     def retrieve_multi_query(
         self,
@@ -318,3 +330,97 @@ class RetrieverService:
             'collection_stats': self.db_manager.get_collection_stats(),
             'embedder_stats': self.embedder.get_stats()
         }
+    
+    def retrieve_from_collection(
+        self,
+        query: str,
+        collection_name: str,
+        n_results: int = 5,
+        filters: Optional[Dict[str, Any]] = None
+    ) -> List[RetrievalResult]:
+        """
+        Retrieve from a specific collection.
+        
+        Args:
+            query: Search query text
+            collection_name: Name of collection to query
+            n_results: Number of results to return
+            filters: Optional metadata filters
+            
+        Returns:
+            List of RetrievalResult objects
+        """
+        return self.retrieve(
+            query=query,
+            n_results=n_results,
+            filters=filters,
+            collection_name=collection_name
+        )
+    
+    def retrieve_multi_collection(
+        self,
+        query: str,
+        collection_names: List[str],
+        n_results_per_collection: int = 3,
+        filters: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, List[RetrievalResult]]:
+        """
+        Retrieve from multiple collections.
+        
+        Args:
+            query: Search query text
+            collection_names: List of collection names to query
+            n_results_per_collection: Number of results per collection
+            filters: Optional metadata filters
+            
+        Returns:
+            Dictionary mapping collection names to results
+        """
+        self.logger.info(f"Multi-collection retrieval from {len(collection_names)} collections")
+        
+        results_by_collection = {}
+        
+        for collection_name in collection_names:
+            try:
+                results = self.retrieve_from_collection(
+                    query=query,
+                    collection_name=collection_name,
+                    n_results=n_results_per_collection,
+                    filters=filters
+                )
+                results_by_collection[collection_name] = results
+            except Exception as e:
+                self.logger.error(f"Error retrieving from {collection_name}: {e}")
+                results_by_collection[collection_name] = []
+        
+        return results_by_collection
+    
+    def switch_collection(self, collection_name: str) -> bool:
+        """
+        Permanently switch to a different collection.
+        
+        Args:
+            collection_name: Name of collection to switch to
+            
+        Returns:
+            True if successful
+        """
+        return self.db_manager.switch_collection(collection_name)
+    
+    def get_current_collection(self) -> str:
+        """
+        Get the name of the currently active collection.
+        
+        Returns:
+            Current collection name
+        """
+        return self.db_manager.collection_name
+    
+    def list_available_collections(self) -> List[str]:
+        """
+        Get list of all available collections.
+        
+        Returns:
+            List of collection names
+        """
+        return self.db_manager.get_available_collections()
