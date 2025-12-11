@@ -47,11 +47,11 @@ class QueryProcessor:
     # Common real estate query patterns
     QUERY_PATTERNS = {
         # Company-related patterns
-        'contact': r'(contact|phone|email|reach|call|connect|address|office|branch|location of)',
+        'contact': r'(contact|phone|email|reach|call|connect|address|office|branch)',
         'timing': r'(timing|hours|when|schedule|open|close)',
         'social': r'(social|facebook|twitter|linkedin|instagram|youtube)',
         'specialization': r'(what|which).*(specializ|specialis|service|offer|do|build)',
-        'location': r'(where|which area|which location|service area)',
+        'location': r'(where|which area|which location|service area|location of)',
         'about': r'(about|tell me|information|who|what is)',
         'price': r'(price|cost|rate|how much|pricing)',
         # Project-specific patterns
@@ -190,11 +190,11 @@ class QueryProcessor:
             'tower_info',         # specific tower information
             'project_list',       # list/show projects
             'project_details',    # project detail queries
+            'location',           # location/area queries
             'contact',            # contact information
             'timing',             # business hours
             'social',             # social media
             'specialization',     # company specialization
-            'location',           # location/area queries
             'price',              # pricing queries
             'project_info',       # general project queries
             'about',              # general about queries

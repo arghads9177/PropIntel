@@ -5,7 +5,9 @@ This module provides functionality to automatically detect which ChromaDB collec
 should be queried based on the user's query content and intent.
 """
 
+import json
 import re
+from pathlib import Path
 from typing import Optional, List, Dict
 import logging
 
@@ -18,6 +20,7 @@ class CollectionRouter:
     # Collection names
     COMPANY_COLLECTION = "propintel_companies"
     PROJECT_COLLECTION = "propintel_knowledge"
+    PROJECTS_DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "cleaned" / "projects.json"
     
     # Keywords that indicate project-related queries
     PROJECT_KEYWORDS = [
@@ -64,8 +67,12 @@ class CollectionRouter:
         """Initialize the collection router."""
         self.project_regex = re.compile('|'.join(self.PROJECT_KEYWORDS), re.IGNORECASE)
         self.company_regex = re.compile('|'.join(self.COMPANY_KEYWORDS), re.IGNORECASE)
-        self.project_name_regex = re.compile('|'.join(self.PROJECT_NAME_PATTERNS), re.IGNORECASE)
+        dynamic_patterns = self._load_project_name_patterns()
+        project_patterns = self.PROJECT_NAME_PATTERNS + dynamic_patterns
+        self.project_name_regex = re.compile('|'.join(project_patterns), re.IGNORECASE)
         self.company_name_regex = re.compile('|'.join(self.COMPANY_NAME_PATTERNS), re.IGNORECASE)
+        if dynamic_patterns:
+            logger.info("Loaded %d dynamic project names for routing", len(dynamic_patterns))
     
     def route(self, query: str) -> str:
         """
@@ -213,6 +220,27 @@ class CollectionRouter:
             project_name = ' '.join(word.capitalize() for word in match.group().split())
             return project_name
         return None
+
+    def _load_project_name_patterns(self) -> List[str]:
+        """Load project name patterns from the cleaned projects dataset."""
+        patterns: List[str] = []
+        try:
+            with open(self.PROJECTS_DATA_PATH, 'r', encoding='utf-8') as f:
+                projects = json.load(f)
+            for project in projects:
+                name = project.get('project_name')
+                if not name:
+                    continue
+                escaped = re.escape(name.strip().lower())
+                if escaped:
+                    patterns.append(escaped)
+        except FileNotFoundError:
+            logger.warning("Projects data file not found at %s", self.PROJECTS_DATA_PATH)
+        except json.JSONDecodeError:
+            logger.warning("Projects data file is not valid JSON at %s", self.PROJECTS_DATA_PATH)
+        except Exception as exc:
+            logger.warning("Failed to load project names: %s", exc)
+        return patterns
     
     def extract_company_name(self, query: str) -> Optional[str]:
         """

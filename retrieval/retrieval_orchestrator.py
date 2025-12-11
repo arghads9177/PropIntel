@@ -12,6 +12,7 @@ from datetime import datetime
 from retrieval.retriever import RetrieverService, RetrievalResult
 from retrieval.query_processor import QueryProcessor
 from retrieval.result_ranker import ResultRanker, RankedResult
+from retrieval.collection_router import CollectionRouter
 
 
 class RetrievalOrchestrator:
@@ -30,8 +31,10 @@ class RetrievalOrchestrator:
         retriever: Optional[RetrieverService] = None,
         query_processor: Optional[QueryProcessor] = None,
         ranker: Optional[ResultRanker] = None,
+        collection_router: Optional[CollectionRouter] = None,
         collection_name: str = "propintel_companies",
-        persist_directory: Optional[str] = None
+        persist_directory: Optional[str] = None,
+        auto_route: bool = True
     ):
         """
         Initialize the retrieval orchestrator.
@@ -40,8 +43,10 @@ class RetrievalOrchestrator:
             retriever: RetrieverService instance (creates new if None)
             query_processor: QueryProcessor instance (creates new if None)
             ranker: ResultRanker instance (creates new if None)
-            collection_name: ChromaDB collection name
+            collection_router: CollectionRouter instance (creates new if None)
+            collection_name: ChromaDB collection name (default if auto_route is False)
             persist_directory: ChromaDB persistence directory
+            auto_route: Whether to automatically route queries to correct collection
         """
         self.logger = logging.getLogger(__name__)
         
@@ -52,6 +57,8 @@ class RetrievalOrchestrator:
         )
         self.query_processor = query_processor or QueryProcessor()
         self.ranker = ranker or ResultRanker()
+        self.collection_router = collection_router or CollectionRouter()
+        self.auto_route = auto_route
         
         # Track statistics
         self.stats = {
@@ -95,6 +102,18 @@ class RetrievalOrchestrator:
         self.stats['total_queries'] += 1
         
         try:
+            # Step 0: Auto-route to correct collection if enabled
+            routing_info = None
+            if self.auto_route:
+                routing_info = self.collection_router.route_with_confidence(query)
+                target_collection = routing_info['collection']
+                
+                # Switch collection if different from current
+                current_collection = self.retriever.get_current_collection()
+                if current_collection != target_collection:
+                    self.logger.info(f"Auto-routing from '{current_collection}' to '{target_collection}' (confidence: {routing_info['confidence']:.2%})")
+                    self.retriever.switch_collection(target_collection)
+            
             # Step 1: Process query
             processed_query = self.query_processor.process(
                 query,
@@ -167,6 +186,11 @@ class RetrievalOrchestrator:
                     'timestamp': datetime.now().isoformat()
                 }
             }
+            
+            # Add routing info if auto-routing was used
+            if routing_info:
+                response['metadata']['collection'] = routing_info['collection']
+                response['metadata']['routing_confidence'] = routing_info['confidence']
             
             self.logger.info(f"Retrieved {len(final_results)} results in {duration:.2f}s")
             return response
