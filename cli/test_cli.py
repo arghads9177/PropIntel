@@ -20,7 +20,7 @@ def test_imports():
         from cli.propintel_cli import PropIntelCLI
         from cli.session_manager import SessionManager
         from cli.formatter import CLIFormatter, Colors
-        from generation.answer_generator import AnswerGenerator
+        from agentic.workflow.orchestrator import build_agentic_graph
         print("✅ All imports successful")
         return True
     except Exception as e:
@@ -114,24 +114,24 @@ def test_cli_initialization():
         return False
 
 
-def test_generator_integration():
-    """Test that generator can be initialized"""
-    print("\nTesting generator integration...")
+def test_workflow_integration():
+    """Test that workflow can be initialized"""
+    print("\nTesting workflow integration...")
     
     try:
         from cli.propintel_cli import PropIntelCLI
         
         cli = PropIntelCLI()
-        success = cli.initialize_generator()
+        success = cli.initialize_workflow()
         
         if success:
-            print("✅ Generator initialization successful")
+            print("✅ Workflow initialization successful")
             return True
         else:
-            print("⚠️  Generator initialization failed (may need API keys)")
+            print("⚠️  Workflow initialization failed (may need API keys)")
             return True  # Don't fail test if API keys missing
     except Exception as e:
-        print(f"❌ Generator integration error: {e}")
+        print(f"❌ Workflow integration error: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -148,7 +148,7 @@ def main():
         ("Formatter", test_formatter),
         ("Session Manager", test_session_manager),
         ("CLI Initialization", test_cli_initialization),
-        ("Generator Integration", test_generator_integration),
+        ("Workflow Integration", test_workflow_integration),
     ]
     
     results = []

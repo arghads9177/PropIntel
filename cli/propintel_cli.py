@@ -6,11 +6,10 @@ real estate intelligence assistant.
 """
 
 import sys
-import os
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List, Any, Tuple
 import logging
 
 # Add project root to path
@@ -21,6 +20,9 @@ from generation.answer_generator import AnswerGenerator
 from cli.session_manager import SessionManager
 from cli.formatter import CLIFormatter
 from retrieval.collection_router import get_router
+from agentic.workflow.orchestrator import build_agentic_graph, create_initial_state
+from agentic.workflow.state import AgentResponse
+from agentic.agents import build_rag_agent
 
 
 class PropIntelCLI:
@@ -38,10 +40,13 @@ class PropIntelCLI:
     def __init__(self):
         """Initialize CLI interface"""
         self.formatter = CLIFormatter()
-        self.session = SessionManager()
-        self.generator: Optional[AnswerGenerator] = None
-        self.collection_router = get_router()
         self.config = self._load_config()
+        self.session = SessionManager(max_history=self.config.get("max_history", 50))
+        self.collection_router = get_router()
+        self.rag_generator: Optional[AnswerGenerator] = None
+        self.workflow = None
+        self.workflow_memory: Dict[str, Any] = {}
+        self._workflow_config: Dict[str, Any] | None = None
         self.running = False
         
         # Setup logging
@@ -85,16 +90,28 @@ class PropIntelCLI:
         except Exception as e:
             print(f"Error saving config: {e}")
     
-    def initialize_generator(self):
-        """Initialize the answer generator"""
+    def initialize_workflow(self) -> bool:
+        """Initialize the LangGraph workflow executor."""
         try:
-            self.generator = AnswerGenerator(
-                llm_provider=self.config['provider'],
+            self.rag_generator = AnswerGenerator(
+                llm_provider=self.config.get('provider', 'groq'),
                 llm_model=self.config.get('model')
             )
+            rag_agent = build_rag_agent(answer_generator=self.rag_generator)
+            self.workflow = build_agentic_graph(rag_agent=rag_agent)
+            self.workflow_memory = {}
+            self._workflow_config = {
+                "configurable": {
+                    "thread_id": self.session.session_id,
+                }
+            }
             return True
         except Exception as e:
-            self.formatter.print_error(f"Failed to initialize generator: {e}")
+            self.formatter.print_error(f"Failed to initialize workflow: {e}")
+            if self.config.get('verbose'):
+                import traceback
+
+                traceback.print_exc()
             return False
     
     def start(self):
@@ -102,8 +119,8 @@ class PropIntelCLI:
         self.running = True
         self.formatter.print_banner()
         
-        # Initialize generator
-        if not self.initialize_generator():
+        # Initialize LangGraph workflow
+        if not self.initialize_workflow():
             return
         
         self.formatter.print_success("PropIntel is ready! Type your question or /help for commands.")
@@ -142,6 +159,77 @@ class PropIntelCLI:
             return input(self.formatter.format_prompt())
         except (KeyboardInterrupt, EOFError):
             raise
+
+    def _get_workflow_config(self) -> Dict[str, Any]:
+        if not self._workflow_config:
+            self._workflow_config = {
+                "configurable": {
+                    "thread_id": self.session.session_id,
+                }
+            }
+        return self._workflow_config
+
+    def _invoke_workflow(self, query: str, collection_name: Optional[str] = None) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        """Run the LangGraph workflow and return response plus routing info."""
+        if not self.workflow:
+            raise RuntimeError("Workflow not initialized")
+
+        state = create_initial_state(query=query, memory=self.workflow_memory)
+        state.context.update(
+            {
+                "template": self.config.get("template", "default"),
+                "collection": collection_name,
+                "flags": {
+                    "show_sources": self.config.get("show_sources", True),
+                    "show_metadata": self.config.get("show_metadata", True),
+                },
+            }
+        )
+
+        result_state = self.workflow.invoke(state, config=self._get_workflow_config())
+
+        memory = getattr(result_state, "memory", None)
+        if memory is None and isinstance(result_state, dict):
+            memory = result_state.get("memory", {})
+        self.workflow_memory = memory or {}
+
+        routing = getattr(result_state, "routing", None)
+        if routing is None and isinstance(result_state, dict):
+            routing = result_state.get("routing", {})
+        routing = routing or {}
+
+        final_response = getattr(result_state, "final_response", None)
+        if final_response is None and isinstance(result_state, dict):
+            payload = result_state.get("final_response")
+            if isinstance(payload, AgentResponse):
+                final_response = payload
+            else:
+                payload = payload or {}
+                final_response = AgentResponse(
+                    answer=payload.get("answer"),
+                    metadata=payload.get("metadata", {}),
+                    sources=payload.get("sources", []),
+                )
+
+        if final_response is None:
+            final_response = AgentResponse(
+                answer=None,
+                metadata={"agent": "orchestrator", "error": "missing_final_response"},
+                sources=[],
+            )
+
+        metadata = dict(final_response.metadata or {})
+        metadata.setdefault("provider", self.config.get("provider", "groq"))
+        metadata["routing"] = routing
+
+        result = {
+            "answer": final_response.answer,
+            "sources": final_response.sources or [],
+            "metadata": metadata,
+            "success": bool(final_response.answer),
+        }
+
+        return result, routing
     
     def _handle_query(self, query: str):
         """Handle a user query"""
@@ -173,23 +261,12 @@ class PropIntelCLI:
             self.formatter.print_thinking()
         
         try:
-            # Set collection in generator's retriever if available
-            if collection_name and hasattr(self.generator, 'orchestrator'):
-                if hasattr(self.generator.orchestrator, 'retriever'):
-                    self.generator.orchestrator.retriever.switch_collection(collection_name)
-            
-            # Generate answer
-            result = self.generator.generate_answer(
-                query=query,
-                template_name=self.config.get('template', 'default')
-            )
-            
-            # Add collection info to result
+            result, routing_info = self._invoke_workflow(query, collection_name)
+
+            # Add collection info to result metadata
             if collection_name:
-                if 'metadata' not in result:
-                    result['metadata'] = {}
-                result['metadata']['collection'] = collection_name
-            
+                result.setdefault('metadata', {})['collection'] = collection_name
+
             # Clear thinking indicator
             if not self.config.get('verbose'):
                 print("\r" + " " * 50 + "\r", end="")
@@ -198,7 +275,7 @@ class PropIntelCLI:
             self.session.add_interaction(query, result)
             
             # Display result
-            self._display_result(result)
+            self._display_result(result, routing_info)
             
         except Exception as e:
             self.formatter.print_error(f"Error generating answer: {e}")
@@ -206,8 +283,11 @@ class PropIntelCLI:
                 import traceback
                 traceback.print_exc()
     
-    def _display_result(self, result: Dict[str, Any]):
+    def _display_result(self, result: Dict[str, Any], routing_info: Optional[Dict[str, Any]] = None):
         """Display the answer result"""
+        if routing_info:
+            self._print_routing_summary(routing_info)
+
         if result.get('answer'):
             # Print answer
             self.formatter.print_answer(result['answer'])
@@ -223,6 +303,32 @@ class PropIntelCLI:
             self.formatter.print_error(result.get('error', 'Unknown error'))
         
         print()  # Blank line
+
+    def _print_routing_summary(self, routing_info: Dict[str, Any]):
+        """Display which agents handled the request."""
+        target = routing_info.get('target', 'rag')
+        confidence = routing_info.get('confidence')
+
+        if target == 'both':
+            summary = 'Combined response from RAG + API agents'
+        elif target == 'api':
+            summary = 'Handled by API Agent'
+        else:
+            summary = 'Handled by RAG Agent'
+
+        if isinstance(confidence, (int, float)):
+            summary += f" (confidence: {confidence:.0%})"
+
+        self.formatter.print_info(summary)
+
+        intents = routing_info.get('intents') or []
+        if intents:
+            print(f"🔎 Detected intents: {', '.join(intents)}")
+
+        rationale = routing_info.get('rationale')
+        if rationale:
+            print(f"🧠 Router note: {rationale}")
+        print()
     
     def _handle_command(self, command: str):
         """Handle a CLI command"""
@@ -339,46 +445,61 @@ TIPS:
     
     def _cmd_stats(self):
         """Show pipeline statistics"""
-        if not self.generator:
-            self.formatter.print_error("Generator not initialized")
-            return
-        
-        gen_stats = self.generator.get_stats()
-        llm_stats = self.generator.llm.stats
+        stats = self.session.get_stats()
         
         print("\n" + "═" * 80)
         print("📊 PIPELINE STATISTICS")
         print("═" * 80 + "\n")
         
-        print("GENERATOR STATISTICS")
+        print("SESSION OVERVIEW")
         print("-" * 40)
-        print(f"Total Queries:       {gen_stats['total_queries']}")
-        print(f"Successful:          {gen_stats['successful']}")
-        print(f"Failed:              {gen_stats['failed']}")
-        if gen_stats['total_queries'] > 0:
-            print(f"Avg Response Time:   {gen_stats['avg_response_time']:.2f}s")
-            print(f"Total Tokens:        {gen_stats['total_tokens']:,}")
-        
-        print("\nLLM STATISTICS")
-        print("-" * 40)
-        print(f"Provider:            {self.config['provider']}")
-        print(f"Total Requests:      {llm_stats['total_requests']}")
-        print(f"Successful:          {llm_stats['successful_requests']}")
-        if llm_stats['total_requests'] > 0:
-            success_rate = llm_stats['successful_requests'] / llm_stats['total_requests'] * 100
-            print(f"Success Rate:        {success_rate:.1f}%")
-            print(f"Total Tokens:        {llm_stats['total_tokens']:,}")
-        
-        print("\nSESSION STATISTICS")
-        print("-" * 40)
-        print(f"Interactions:        {len(self.session.get_history())}")
+        print(f"Interactions:        {stats['total_interactions']}")
+        print(f"Successful:          {stats['successful']}")
+        print(f"Failed:              {stats['failed']}")
+        if stats['total_interactions']:
+            print(f"Avg Response Time:   {stats['avg_response_time']:.2f}s")
+            print(f"Total Tokens:        {stats['total_tokens']:,}")
         print(f"Session Started:     {self.session.start_time}")
+
+        print("\nRAG PIPELINE")
+        print("-" * 40)
+        if self.rag_generator:
+            gen_stats = self.rag_generator.stats
+            print(f"Total Queries:       {gen_stats['total_queries']}")
+            print(f"Successful Answers:  {gen_stats['successful_answers']}")
+            print(f"Failed Answers:      {gen_stats['failed_answers']}")
+            print(f"Avg Response Time:   {gen_stats['average_response_time']:.2f}s")
+            print(f"Total Tokens:        {gen_stats['total_tokens']:,}")
+
+            llm_stats = getattr(self.rag_generator.llm_service, 'stats', {})
+            if llm_stats:
+                total_requests = llm_stats.get('total_requests', 0)
+                success = llm_stats.get('successful_requests', 0)
+                success_rate = (success / total_requests * 100) if total_requests else 0
+                print(f"Provider:            {self.config.get('provider', 'groq')}")
+                print(f"LLM Requests:        {total_requests}")
+                print(f"LLM Success Rate:    {success_rate:.1f}%")
+        else:
+            print("Workflow not initialized")
+        
+        print("\nWORKFLOW STATE")
+        print("-" * 40)
+        workflow_status = "ready" if self.workflow else "not initialized"
+        print(f"Executor:            {workflow_status}")
+        last_routed = self.workflow_memory.get('history', [])[-2:] if self.workflow_memory else []
+        if last_routed:
+            print("Recent Turns:        " + " | ".join(item.get('content', '') for item in last_routed[-2:]))
+        facts = (self.workflow_memory or {}).get('facts', {})
+        if facts:
+            for key, value in facts.items():
+                print(f"Known {key.replace('_', ' ').title()}: {value}")
         
         print("\n" + "═" * 80 + "\n")
     
     def _cmd_clear(self):
         """Clear conversation history"""
         self.session.clear()
+        self.workflow_memory = {}
         self.formatter.print_success("Conversation history cleared!")
         print()
     
@@ -471,12 +592,12 @@ TIPS:
         self.config['provider'] = provider
         self._save_config()
         
-        # Reinitialize generator with new provider
+        # Reinitialize workflow with new provider
         print("Reinitializing with new provider...")
-        if self.initialize_generator():
+        if self.initialize_workflow():
             self.formatter.print_success(f"Provider set to: {provider}")
         else:
-            self.formatter.print_error(f"Failed to initialize {provider}")
+            self.formatter.print_error(f"Failed to initialize workflow for {provider}")
         print()
     
     def _cmd_exit(self):
@@ -517,8 +638,8 @@ TIPS:
     
     def _cmd_collections(self):
         """Show available collections and their information"""
-        if not self.generator:
-            self.formatter.print_error("Generator not initialized")
+        if not self.rag_generator:
+            self.formatter.print_error("Workflow not initialized")
             return
         
         print("\n" + "═" * 80)
@@ -526,32 +647,28 @@ TIPS:
         print("═" * 80 + "\n")
         
         try:
-            # Get collections info from retriever
-            if hasattr(self.generator, 'orchestrator'):
-                if hasattr(self.generator.orchestrator, 'retriever'):
-                    retriever = self.generator.orchestrator.retriever
-                    collections = retriever.list_available_collections()
-                    
-                    for col_name in collections:
-                        info = retriever.db_manager.get_collection_info(col_name)
-                        
-                        # Determine collection type
-                        col_type = "Project" if "knowledge" in col_name else "Company"
-                        
-                        print(f"📁 {col_name}")
-                        print(f"   Type:      {col_type} Data")
-                        print(f"   Documents: {info.get('count', 0)}")
-                        print(f"   Status:    {'✓ Active' if info.get('has_documents') else '✗ Empty'}")
-                        print()
-                    
-                    # Show current mode
-                    current_mode = self.config.get('collection_mode', 'auto')
-                    print(f"Current Mode: {current_mode}")
-                    print(f"Use /mode <auto|company|project> to change")
-                else:
-                    self.formatter.print_error("Retriever not available")
-            else:
-                self.formatter.print_error("Orchestrator not available")
+            retriever = getattr(self.rag_generator, 'retrieval_orchestrator', None)
+            if not retriever or not hasattr(retriever, 'retriever'):
+                self.formatter.print_error("Retriever not available")
+                return
+
+            retriever = retriever.retriever
+            collections = retriever.list_available_collections()
+
+            for col_name in collections:
+                info = retriever.db_manager.get_collection_info(col_name)
+
+                col_type = "Project" if "knowledge" in col_name else "Company"
+
+                print(f"📁 {col_name}")
+                print(f"   Type:      {col_type} Data")
+                print(f"   Documents: {info.get('count', 0)}")
+                print(f"   Status:    {'✓ Active' if info.get('has_documents') else '✗ Empty'}")
+                print()
+
+            current_mode = self.config.get('collection_mode', 'auto')
+            print(f"Current Mode: {current_mode}")
+            print(f"Use /mode <auto|company|project> to change")
         
         except Exception as e:
             self.formatter.print_error(f"Error getting collections: {e}")

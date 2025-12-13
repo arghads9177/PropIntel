@@ -41,16 +41,26 @@ class SessionManager:
             query: User query
             result: Answer result from generator
         """
+        metadata = result.get('metadata', {})
+        provider = metadata.get('provider') or metadata.get('llm_provider')
+        response_time = metadata.get('response_time')
+        if response_time is None:
+            response_time = metadata.get('response_time_seconds')
+        tokens_used = metadata.get('tokens_used')
+        if tokens_used is None:
+            tokens_used = metadata.get('tokens')
+
         interaction = {
             'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'query': query,
             'answer': result.get('answer', ''),
             'success': result.get('success', False),
             'metadata': {
-                'provider': result.get('metadata', {}).get('provider'),
-                'response_time': result.get('metadata', {}).get('response_time'),
-                'tokens': result.get('metadata', {}).get('tokens_used'),
-                'sources_count': len(result.get('sources', []))
+                'provider': provider,
+                'response_time': response_time,
+                'tokens': tokens_used,
+                'sources_count': len(result.get('sources', [])),
+                'routing': metadata.get('routing')
             }
         }
         
@@ -141,15 +151,16 @@ class SessionManager:
         failed = len(self.history) - successful
         
         response_times = [
-            i['metadata'].get('response_time', 0) 
-            for i in self.history 
-            if i['metadata'].get('response_time')
+            i['metadata'].get('response_time', 0)
+            for i in self.history
+            if i['metadata'].get('response_time') is not None
         ]
         avg_response_time = sum(response_times) / len(response_times) if response_times else 0
         
         total_tokens = sum(
-            i['metadata'].get('tokens', 0) 
+            i['metadata'].get('tokens', 0)
             for i in self.history
+            if i['metadata'].get('tokens') is not None
         )
         
         return {
