@@ -9,6 +9,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, StateGraph
 
 from agentic.agents import build_api_agent, build_rag_agent
+from agentic.workflow.routing import HeuristicRouter, RoutingDecision
 from agentic.workflow.state import AgentResponse, AgentState, create_initial_state
 
 
@@ -19,8 +20,13 @@ Respond with JSON containing keys: target (rag|api|both), confidence (0-1 float)
 intents (list of strings), rationale.
 Query: {query}
 Conversation summary: {summary}
+Heuristic hints (non-binding): {routing_hints}
 """
 )
+
+
+HEURISTIC_ROUTER = HeuristicRouter()
+HEURISTIC_CONFIDENCE_THRESHOLD = 0.65
 
 
 def _summarize_memory(state: AgentState) -> str:
@@ -29,13 +35,37 @@ def _summarize_memory(state: AgentState) -> str:
     return " | ".join(f"{item['role']}: {item['content']}" for item in last_turns)
 
 
+def _decision_to_dict(decision: RoutingDecision) -> Dict[str, Any]:
+    return {
+        "target": decision.target,
+        "confidence": decision.confidence,
+        "intents": decision.intents,
+        "rationale": decision.rationale,
+        "source": decision.source,
+        "hints": decision.hints,
+    }
+
+
 def _call_router_llm(state: AgentState, **_: Any) -> AgentState:
     from generation.llm_service import LLMService
 
+    heuristic_decision = HEURISTIC_ROUTER.route(state.query, state.memory)
+    heuristic_payload = _decision_to_dict(heuristic_decision)
+
+    if heuristic_decision.confidence >= HEURISTIC_CONFIDENCE_THRESHOLD:
+        heuristic_payload["strategy"] = "heuristic"
+        state.routing = heuristic_payload
+        return state
+
     summary = _summarize_memory(state)
-    prompt = INTENT_PROMPT.format(query=state.query, summary=summary)
+    hint_text = heuristic_decision.rationale or "No confident heuristic signal."
+    prompt = INTENT_PROMPT.format(query=state.query, summary=summary, routing_hints=hint_text)
     llm = LLMService(provider="groq")
-    llm_response = llm.generate(prompt=prompt, system_prompt="You are a strict JSON generator.", max_tokens=200)
+    llm_response = llm.generate(
+        prompt=prompt,
+        system_prompt="You are a strict JSON generator.",
+        max_tokens=200,
+    )
 
     try:
         import json
@@ -51,20 +81,30 @@ def _call_router_llm(state: AgentState, **_: Any) -> AgentState:
         intents = []
         rationale = "Failed to parse LLM routing response"
 
-    # Fallback logic if LLM lacks certainty
     if confidence < 0.4:
-        lower = state.query.lower()
-        if any(term in lower for term in ("price", "booking", "booked")):
-            target = "api"
-            confidence = 0.45
+        if heuristic_decision.target in {"api", "both"}:
+            target = heuristic_decision.target
+            confidence = HEURISTIC_CONFIDENCE_THRESHOLD
+            intents = heuristic_decision.intents
+            rationale = f"LLM fallback to heuristics: {heuristic_decision.rationale or 'API keywords detected.'}"
         else:
-            target = "rag"
+            lower = state.query.lower()
+            if any(term in lower for term in ("price", "booking", "booked")):
+                target = "api"
+                confidence = 0.45
+                intents = intents or ["PRICE_LOOKUP"]
+                rationale = "Keyword fallback forced API route"
+            else:
+                target = "rag"
 
     state.routing = {
         "target": target,
         "confidence": confidence,
         "intents": intents,
         "rationale": rationale,
+        "source": "llm",
+        "hints": heuristic_payload.get("hints", {}),
+        "heuristic_seed": heuristic_payload,
     }
     return state
 
