@@ -28,6 +28,27 @@ from agentic.workflow.state import AgentState
 
 LOGGER = logging.getLogger(__name__)
 
+# Common project aliases mapped to likely API shortnames. Helps override stale
+# memory when users pivot to a different project mid-conversation.
+PROJECT_ALIASES = {
+    "alakananda apartment": "alakananda",
+    "alakananda phase 2": "alakananda",
+    "alakananda": "alakananda",
+    "nilachal apartment": "nilachal",
+    "nilachal": "nilachal",
+    "shivalaya residency": "shivalaya",
+    "shivalaya": "shivalaya",
+    "kabi tirtha": "kabi tirtha",
+    "kabitirtha": "kabi tirtha",
+    "rajdeep apartment": "rajdeep",
+    "geetanjali enclave": "geetanjali",
+    "olivia enclave": "olivia",
+    "elina tower": "elina",
+    "omkar apartment": "omkar",
+    "ashirwad apartment": "ashirwad",
+    "aastha apartment": "aastha",
+}
+
 
 class PropertyAPIClient(Protocol):
     """Protocol implemented by real or stub API clients."""
@@ -51,12 +72,30 @@ class MockPropertyAPIClient:
         },
         {
             "shortname": "BASU TOWER",
-            "fullname": "Basu Tower",
+            "fullname": "Alakananda Apartment",
             "branch": "BANDEL",
             "status": "Running",
-            "towers": 1,
-            "projectfor": "Contract Job",
+            "towers": 2,
+            "projectfor": "Residential",
             "approxcompletedate": "2027-03-31T00:00:00.000Z",
+        },
+        {
+            "shortname": "NILACHAL",
+            "fullname": "Nilachal Apartment",
+            "branch": "ASANSOL",
+            "status": "Running",
+            "towers": 1,
+            "projectfor": "Residential",
+            "approxcompletedate": "2026-12-31T00:00:00.000Z",
+        },
+        {
+            "shortname": "KABI TIRTHA",
+            "fullname": "Kabi Tirtha",
+            "branch": "ASANSOL",
+            "status": "Running",
+            "towers": 4,
+            "projectfor": "Residential",
+            "approxcompletedate": "2027-06-30T00:00:00.000Z",
         },
     ]
 
@@ -76,14 +115,9 @@ class MockPropertyAPIClient:
                 {"pname": "WING G", "total": 8, "booked": 5, "available": 3},
             ],
             "details": [],
-            "garages": [],
-        },
-        "DEFAULT": {
-            "summary": [
-                {"pname": "TYPE A", "total": 4, "booked": 2, "available": 2},
+            "garages": [
+                {"pname": "Garage", "total": 3, "booked": 0, "available": 3},
             ],
-            "details": [],
-            "garages": [],
         },
     }
 
@@ -126,6 +160,67 @@ class MockPropertyAPIClient:
             "rate": 2500,
             "amount": 2287500,
         },
+        {
+            "shortname": "ALAKANANDA",
+            "branch": "BANDEL",
+            "tname": "ALAKANANDA",
+            "ptype": "Flat",
+            "pname": "B-2",
+            "floor": 2,
+            "noofunit": 2,
+            "area": 980,
+            "builduparea": 805,
+            "rate": 3125,
+            "amount": 3062500,
+        },
+        {
+            "shortname": "ALAKANANDA",
+            "branch": "BANDEL",
+            "tname": "ALAKANANDA",
+            "ptype": "Garage",
+            "pname": "G-01",
+            "floor": 0,
+            "noofunit": 1,
+            "area": 120,
+            "rate": 180000,
+            "amount": 180000,
+        },
+        {
+            "shortname": "ALAKANANDA",
+            "branch": "BANDEL",
+            "tname": "ALAKANANDA",
+            "ptype": "Garage",
+            "pname": "G-03",
+            "floor": 0,
+            "noofunit": 1,
+            "area": 120,
+            "rate": 180000,
+            "amount": 180000,
+        },
+        {
+            "shortname": "ALAKANANDA",
+            "branch": "BANDEL",
+            "tname": "ALAKANANDA",
+            "ptype": "Garage",
+            "pname": "G-07",
+            "floor": 0,
+            "noofunit": 1,
+            "area": 120,
+            "rate": 180000,
+            "amount": 180000,
+        },
+        {
+            "shortname": "NILACHAL",
+            "branch": "ASANSOL",
+            "tname": "NILACHAL",
+            "ptype": "Garage",
+            "pname": "PARK-01",
+            "floor": 0,
+            "noofunit": 1,
+            "area": 120,
+            "rate": 185000,
+            "amount": 185000,
+        },
     ]
 
     def fetch(self, request: APIRequest) -> APIResponse:
@@ -142,7 +237,9 @@ class MockPropertyAPIClient:
             )
         elif request.intent in {APIIntent.AVAILABILITY_BY_PROJECT, APIIntent.BOOKING_STATUS}:
             key = (request.shortname or "DEFAULT").upper()
-            availability = self.AVAILABILITY.get(key, self.AVAILABILITY["DEFAULT"])
+            availability = self.AVAILABILITY.get(key)
+            if availability is None:
+                availability = {"summary": [], "details": [], "garages": []}
             payload = APIResponsePayload(
                 status="ok",
                 data=availability,
@@ -169,7 +266,12 @@ class MockPropertyAPIClient:
     def _filter_projects(self, request: APIRequest) -> list[Dict[str, Any]]:
         projects = self.PROJECTS
         if request.shortname:
-            projects = [p for p in projects if p["shortname"].lower() == request.shortname.lower()]
+            # Support both exact shortname match and partial fullname match
+            search_term = request.shortname.lower()
+            projects = [
+                p for p in projects 
+                if p["shortname"].lower() == search_term or search_term in p.get("fullname", "").lower()
+            ]
         if request.branch:
             projects = [p for p in projects if p.get("branch") == request.branch]
         return projects
@@ -199,6 +301,11 @@ class APIAgent(AgentNode):
 
     def __call__(self, state: AgentState, **kwargs: Any) -> AgentState:
         request = self._build_request(state, **kwargs)
+        
+        # CRITICAL: Resolve project shortname first if user provided a name
+        if request.shortname and request.intent != APIIntent.PROJECT_METADATA:
+            request = self._resolve_project_shortname(request)
+        
         response = self.client.fetch(request)
         answer, answer_meta = self._format_answer(response, request)
 
@@ -232,7 +339,11 @@ class APIAgent(AgentNode):
         intent = overrides.get("intent") or infer_api_intent(query)
         
         # Extract project/property context
-        shortname = overrides.get("shortname") or self._extract_project(state)
+        shortname = overrides.get("shortname")
+        if not shortname:
+            shortname = self._extract_project_from_query(query)
+        if not shortname:
+            shortname = self._extract_project(state)
         branch = overrides.get("branch") or self._extract_branch(query)
         property_type = overrides.get("property_type") or self._extract_property_type(query)
         tower_name = overrides.get("tower_name")
@@ -277,6 +388,61 @@ class APIAgent(AgentNode):
         """Extract project shortname from memory or context."""
         facts = (state.memory or {}).get("facts", {})
         return facts.get("last_project")
+
+    @staticmethod
+    def _extract_project_from_query(query: str) -> Optional[str]:
+        """Match known project aliases directly from the query text."""
+        lowered = (query or "").lower()
+        if not lowered:
+            return None
+
+        for alias, shortname in sorted(PROJECT_ALIASES.items(), key=lambda item: len(item[0]), reverse=True):
+            if alias in lowered:
+                return shortname
+        return None
+
+    def _resolve_project_shortname(self, request: APIRequest) -> APIRequest:
+        """
+        Resolve project shortname by calling PROJECT_METADATA API.
+        
+        This ensures we have the correct API shortname even if user provided
+        a partial name, fullname, or alias. Critical for data accuracy.
+        """
+        if not request.shortname:
+            return request
+        
+        # Call project search to find the actual shortname
+        search_request = APIRequest(
+            intent=APIIntent.PROJECT_METADATA,
+            user_query=request.user_query,
+            shortname=request.shortname,
+            branch=request.branch,
+        )
+        
+        try:
+            search_response = self.client.fetch(search_request)
+            projects = (search_response.payload.data or {}).get("projects", [])
+            
+            if projects:
+                # Use the first match's actual shortname
+                actual_shortname = projects[0].get("shortname")
+                if actual_shortname and actual_shortname != request.shortname:
+                    LOGGER.info(f"Resolved '{request.shortname}' → '{actual_shortname}'")
+                    # Create new request with resolved shortname
+                    return APIRequest(
+                        intent=request.intent,
+                        user_query=request.user_query,
+                        shortname=actual_shortname,
+                        branch=request.branch,
+                        tower_name=request.tower_name,
+                        property_type=request.property_type,
+                        property_name=request.property_name,
+                        extra_params=request.extra_params,
+                    )
+        except Exception as exc:
+            LOGGER.warning(f"Project resolution failed for '{request.shortname}': {exc}")
+        
+        return request
 
     def _format_answer(self, response: APIResponse, request: APIRequest) -> Tuple[str, Dict[str, Any]]:
         payload = response.payload
@@ -346,6 +512,9 @@ class APIAgent(AgentNode):
     ) -> Tuple[str, Dict[str, Any]]:
         summary = data.get("summary") or []
         if not summary:
+            fallback = self._fallback_to_unsold(request)
+            if fallback:
+                return fallback
             project = request.shortname or "the requested project"
             return f"I couldn't find live availability data for {project}.", {"summary_count": 0}
 
@@ -383,6 +552,37 @@ class APIAgent(AgentNode):
             "booked_units": booked_units,
             "garage_available": garage_available,
         }
+
+    def _fallback_to_unsold(self, request: APIRequest) -> Optional[Tuple[str, Dict[str, Any]]]:
+        if not request.shortname and not request.branch:
+            return None
+
+        fallback_request = APIRequest(
+            intent=APIIntent.UNSOLD_PROPERTIES,
+            user_query=request.user_query,
+            shortname=request.shortname,
+            branch=request.branch,
+            tower_name=request.tower_name,
+            property_type=request.property_type,
+            property_name=request.property_name,
+            extra_params=request.extra_params.copy(),
+        )
+
+        try:
+            response = self.client.fetch(fallback_request)
+        except Exception as exc:  # pragma: no cover - network dependent
+            LOGGER.debug("Unsold fallback failed: %s", exc)
+            return None
+
+        payload = response.payload
+        properties = (payload.data or {}).get("properties") or []
+        if payload.status != "ok" or not properties:
+            return None
+
+        answer, meta = self._summarize_unsold_list(payload.data, fallback_request, APIIntent.UNSOLD_PROPERTIES)
+        meta["fallback_source"] = "unsold_properties"
+        meta["original_intent"] = request.intent.name
+        return answer, meta
 
     def _summarize_city_availability(
         self, data: Dict[str, Any], request: APIRequest, _: APIIntent

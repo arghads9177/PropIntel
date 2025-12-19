@@ -3,7 +3,13 @@
 from __future__ import annotations
 
 from agentic.agents.api_agent import APIAgent, MockPropertyAPIClient
-from agentic.agents.api_models import APIIntent, APIRequest, APIResponse, APIResponsePayload
+from agentic.agents.api_models import (
+    APIIntent,
+    APIRequest,
+    APIResponse,
+    APIResponsePayload,
+    infer_api_intent,
+)
 from agentic.workflow.state import AgentState
 
 
@@ -25,6 +31,34 @@ def test_build_request_extracts_branch_type_and_memory_shortname():
     assert request.shortname == "SHIVALAYA"
     assert request.branch == "BANDEL"
     assert request.property_type == "Garage"
+
+
+def test_infer_api_intent_detects_unsold_queries():
+    intent = infer_api_intent("How many unsold flats are available in Alakananda?")
+    assert intent == APIIntent.UNSOLD_PROPERTIES
+
+
+def test_build_request_prefers_query_alias_over_memory_project():
+    agent = _build_agent()
+    state = AgentState(
+        query="How many unsold flats are available in Alakananda?",
+        memory={"facts": {"last_project": "KABI TIRTHA"}},
+    )
+
+    request = agent._build_request(state)
+
+    assert request.shortname == "alakananda"
+
+
+def test_api_agent_falls_back_to_unsold_when_availability_missing():
+    agent = _build_agent()
+    state = AgentState(query="How many garages are available in Nilachal project?", memory={})
+
+    updated = agent(state)
+
+    assert updated.api_response is not None
+    assert "NILACHAL" in (updated.api_response.answer or "")
+    assert updated.api_response.metadata.get("fallback_source") == "unsold_properties"
 
 
 def test_api_agent_populates_state_with_summary_and_metadata():

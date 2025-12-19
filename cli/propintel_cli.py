@@ -60,7 +60,7 @@ class PropIntelCLI:
         config_path = Path(__file__).parent / "config.json"
         
         default_config = {
-            "provider": "groq",
+            "provider": "openai",  # Primary: OpenAI, falls back to Groq, then Gemini
             "model": None,
             "template": "default",
             "show_sources": True,

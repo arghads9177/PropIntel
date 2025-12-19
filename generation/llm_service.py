@@ -66,9 +66,10 @@ class LLMService:
         else:
             self.model = model
         
-        # Initialize LLM client
+        # Initialize LLM client with fallback
         self.client = None
-        self._initialize_client()
+        self.fallback_providers = [LLMProvider.OPENAI, LLMProvider.GROQ, LLMProvider.GEMINI]
+        self._initialize_client_with_fallback()
         
         # Track statistics
         self.stats = {
@@ -89,6 +90,30 @@ class LLMService:
             LLMProvider.GROQ: "llama-3.3-70b-versatile"  # Updated to current model
         }
         return defaults.get(self.provider, "gpt-3.5-turbo")
+    
+    def _initialize_client_with_fallback(self):
+        """Initialize LLM client with automatic fallback to other providers"""
+        # Try requested provider first
+        providers_to_try = [self.provider] + [p for p in self.fallback_providers if p != self.provider]
+        
+        for provider in providers_to_try:
+            try:
+                self.logger.info(f"Attempting to initialize {provider.value}...")
+                original_provider = self.provider
+                self.provider = provider
+                self.model = self._get_default_model()
+                self._initialize_client()
+                
+                if original_provider != provider:
+                    self.logger.warning(f"Using fallback provider: {provider.value} (requested: {original_provider.value})")
+                return  # Success!
+                
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize {provider.value}: {e}")
+                continue
+        
+        # All providers failed
+        raise RuntimeError("All LLM providers failed to initialize. Please check API keys and credentials.")
     
     def _initialize_client(self):
         """Initialize LLM client based on provider"""

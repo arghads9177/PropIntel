@@ -34,7 +34,7 @@ class AnswerGenerator:
         retrieval_orchestrator: Optional[RetrievalOrchestrator] = None,
         llm_service: Optional[LLMService] = None,
         prompt_manager: Optional[PromptManager] = None,
-        llm_provider: str = "groq",
+        llm_provider: str = "openai",  # Primary: OpenAI, falls back to Groq, then Gemini
         llm_model: Optional[str] = None,
         persist_directory: Optional[str] = None
     ):

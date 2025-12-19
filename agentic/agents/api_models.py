@@ -126,8 +126,12 @@ def infer_api_intent(query: str) -> APIIntent:
             return APIIntent.PRICE_COMPARISON
         return APIIntent.PRICE_LOOKUP
 
+    # Explicit unsold inventory requests
+    if "unsold" in lowered:
+        return APIIntent.UNSOLD_PROPERTIES
+
     # Availability/inventory queries
-    if any(term in lowered for term in ("available", "unsold", "vacant", "inventory")):
+    if any(term in lowered for term in ("available", "vacant", "inventory")):
         if any(city in lowered for city in ("asansol", "bandel", "city", "branch")):
             return APIIntent.AVAILABILITY_BY_CITY
         if any(word in lowered for word in ("which", "most", "maximum", "highest", "compare")):
